@@ -1,25 +1,27 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { Spot } = require('../db.js');
+const { Spot } = require("../db.js");
 
 /* GET */
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
-      const spots = await Spot.findAll();
-      res.json({ spots });
+    const spots = await Spot.findAll();
+    res.json({ spots });
   } catch (error) {
-      next(error);
+    next(error);
   }
 });
 
 /* POST */
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   const { name } = req.body;
 
   // Validate spot_name
-  if (!name || typeof name !== 'string' || name.trim() === '') {
-    return res.status(422).json({ error: "The spot_name should be a non-empty string" });
+  if (!name || typeof name !== "string" || name.trim() === "") {
+    return res
+      .status(422)
+      .json({ error: "The spot_name should be a non-empty string" });
   }
 
   try {
@@ -31,10 +33,10 @@ router.post('/', async (req, res, next) => {
 });
 
 /* PUT */
-router.put('/:id', async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
-    const {id}  = req.params;
-    const {name} = req.body;
+    const { id } = req.params;
+    const { name } = req.body;
 
     let spot = await Spot.findByPk(id);
 
@@ -44,7 +46,7 @@ router.put('/:id', async (req, res, next) => {
 
     // Update the spot attribute
     spot.name = name;
-    
+
     await spot.save();
 
     res.status(201).json({ message: "Spot updated successfully" });
@@ -54,18 +56,20 @@ router.put('/:id', async (req, res, next) => {
 });
 
 /* DELETE */
-router.delete('/', async (req, res, next) => {
+router.delete("/", async (req, res, next) => {
   try {
     const { id } = req.body;
 
-    if (!id || typeof id !== 'number' || !Number.isInteger(id)) {
-      return res.status(422).json({ error: "Invalid spot_id. It should be a whole number" });
+    if (!id || typeof id !== "number" || !Number.isInteger(id)) {
+      return res
+        .status(422)
+        .json({ error: "Invalid spot_id. It should be a whole number" });
     }
 
     const deletedSpot = await Spot.destroy({
       where: {
-        id: id
-      }
+        id: id,
+      },
     });
 
     if (deletedSpot === 0) {

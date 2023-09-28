@@ -1,10 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { Room } = require('../db.js');
+const { Room } = require("../db.js");
 
 /* GET */
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const rooms = await Room.findAll();
     res.json({ rooms });
@@ -14,12 +14,14 @@ router.get('/', async (req, res, next) => {
 });
 
 /* POST */
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   const { name } = req.body;
 
   // Validate room_name
-  if (!name || typeof name !== 'string' || name.trim() === '') {
-    return res.status(422).json({ error: "The room_name should be a non-empty string" });
+  if (!name || typeof name !== "string" || name.trim() === "") {
+    return res
+      .status(422)
+      .json({ error: "The room_name should be a non-empty string" });
   }
 
   try {
@@ -30,9 +32,8 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-
 /* PUT */
-router.put('/:id', async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const { name } = req.body;
@@ -55,18 +56,20 @@ router.put('/:id', async (req, res, next) => {
 });
 
 /* DELETE */
-router.delete('/', async (req, res, next) => {
+router.delete("/", async (req, res, next) => {
   try {
     const { id } = req.body;
 
-    if (!id || typeof id !== 'number' || !Number.isInteger(id)) {
-      return res.status(422).json({ error: "Invalid room_id. It should be a whole number" });
+    if (!id || typeof id !== "number" || !Number.isInteger(id)) {
+      return res
+        .status(422)
+        .json({ error: "Invalid room_id. It should be a whole number" });
     }
 
     const deletedRoom = await Room.destroy({
       where: {
-        id: id
-      }
+        id: id,
+      },
     });
 
     if (deletedRoom === 0) {

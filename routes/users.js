@@ -1,11 +1,10 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const { User } = require('../db.js');
-
+const { User } = require("../db.js");
 
 /* GET */
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const users = await User.findAll();
     res.json({ users });
@@ -14,15 +13,14 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-router.get('/me', async (req, res, next) => {
-  const id = req.session.userId
-  console.log(req.session.userId)
+router.get("/me", async (req, res, next) => {
+  const id = req.session.userId;
   console.log(id);
   const user = await User.findByPk(id);
-  
+
   console.log(user);
-  res.json(user)
-})
+  res.json(user);
+});
 
 /* POST */
 const emailValidator = (email) => {
@@ -31,31 +29,27 @@ const emailValidator = (email) => {
   return emailRegex.test(email);
 };
 
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
-    const {
-      role,
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      password
-    } = req.body;
+    const { role, firstName, lastName, email, phoneNumber, password } =
+      req.body;
 
     // Validate input data types
     if (
-      typeof role !== 'string' ||
-      typeof firstName !== 'string' ||
-      typeof lastName !== 'string' ||
-      typeof phoneNumber !== 'string' ||
-      typeof password !== 'string'
+      typeof role !== "string" ||
+      typeof firstName !== "string" ||
+      typeof lastName !== "string" ||
+      typeof phoneNumber !== "string" ||
+      typeof password !== "string"
     ) {
-      return res.status(400).json({ error: 'All attributes must be strings.' });
+      return res.status(400).json({ error: "All attributes must be strings." });
     }
 
     // Validate email format
     if (!emailValidator(email)) {
-      return res.status(400).json({ error: 'Email input is not in a valid email format.' });
+      return res
+        .status(400)
+        .json({ error: "Email input is not in a valid email format." });
     }
 
     // Additional validation for email and phone number if needed
@@ -67,7 +61,7 @@ router.post('/', async (req, res, next) => {
       lastName,
       email,
       phoneNumber,
-      password
+      password,
     });
 
     res.status(201).json({ message: "New user added", user: newUser });
@@ -78,10 +72,11 @@ router.post('/', async (req, res, next) => {
 });
 
 /* PUT */
-router.put('/:id', async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
-    const {id}  = req.params;
-    const {role, firstName, lastName, email, phoneNumber, password} = req.body;
+    const { id } = req.params;
+    const { role, firstName, lastName, email, phoneNumber, password } =
+      req.body;
 
     let user = await User.findByPk(id);
 
@@ -90,13 +85,13 @@ router.put('/:id', async (req, res, next) => {
     }
 
     // Update the spot attribute
-    user.role = role
-    user.firstName = firstName
-    user.lastName = lastName
-    user.email = email
-    user.phoneNumber = phoneNumber
-    user.password = password
-    
+    user.role = role;
+    user.firstName = firstName;
+    user.lastName = lastName;
+    user.email = email;
+    user.phoneNumber = phoneNumber;
+    user.password = password;
+
     await user.save();
 
     res.status(201).json({ message: "User updated successfully" });
@@ -106,18 +101,20 @@ router.put('/:id', async (req, res, next) => {
 });
 
 /* DELETE */
-router.delete('/', async (req, res, next) => {
+router.delete("/", async (req, res, next) => {
   try {
     const { id } = req.body;
 
-    if (!id || typeof id !== 'number' || !Number.isInteger(id)) {
-      return res.status(422).json({ error: "Invalid user. It should be a whole number" });
+    if (!id || typeof id !== "number" || !Number.isInteger(id)) {
+      return res
+        .status(422)
+        .json({ error: "Invalid user. It should be a whole number" });
     }
 
     const deletedUser = await Spot.destroy({
       where: {
-        id: id
-      }
+        id: id,
+      },
     });
 
     if (deletedUser === 0) {
@@ -129,6 +126,5 @@ router.delete('/', async (req, res, next) => {
     next(error);
   }
 });
-
 
 module.exports = router;

@@ -1,10 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { Reservation } = require('../db.js');
-
+const { Reservation } = require("../db.js");
 
 /* GET */
-router.get('/', async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const reservations = await Reservation.findAll();
     res.json({ reservations });
@@ -14,34 +13,35 @@ router.get('/', async (req, res, next) => {
 });
 
 /* POST */
-router.post('/', async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
-    const { 
-      date,
-      name,
-      note,
-      status,
-      userId,
-      spotId,
-      roomId
-    } = req.body;
+    const { date, name, note, status, userId, spotId, roomId } = req.body;
 
-    const isInteger = (value) => typeof value === 'number' && Number.isInteger(value);
+    const isInteger = (value) =>
+      typeof value === "number" && Number.isInteger(value);
 
     // Validate user_id
     if (userId && !isInteger(userId)) {
-      return res.status(422).json({ error: "The user_id should be a whole number" });
+      return res
+        .status(422)
+        .json({ error: "The user_id should be a whole number" });
     }
 
     // Validate spot_id and room_id (optional)
     if (spotId !== undefined && !isInteger(spotId)) {
-      return res.status(422).json({ error: "The spot_id should be a non-negative whole number" });
+      return res
+        .status(422)
+        .json({ error: "The spot_id should be a non-negative whole number" });
     }
     if (roomId !== undefined && !isInteger(roomId)) {
-      return res.status(422).json({ error: "The room_id should be a non-negative whole number" });
+      return res
+        .status(422)
+        .json({ error: "The room_id should be a non-negative whole number" });
     }
     if (!spotId && !roomId) {
-      return res.status(422).json({ error: "You should either state a room or a spot" });
+      return res
+        .status(422)
+        .json({ error: "You should either state a room or a spot" });
     }
 
     // Validate reservation_date
@@ -50,23 +50,43 @@ router.post('/', async (req, res, next) => {
     const six_months_later = new Date();
     six_months_later.setMonth(current_date.getMonth() + 6);
 
-    if (!(parsed_reservation_date instanceof Date && !isNaN(parsed_reservation_date) && parsed_reservation_date >= current_date && parsed_reservation_date <= six_months_later)) {
-      return res.status(422).json({ error: "Invalid reservation_date. It should be a valid date within the next 6 months." });
+    if (
+      !(
+        parsed_reservation_date instanceof Date &&
+        !isNaN(parsed_reservation_date) &&
+        parsed_reservation_date >= current_date &&
+        parsed_reservation_date <= six_months_later
+      )
+    ) {
+      return res.status(422).json({
+        error:
+          "Invalid reservation_date. It should be a valid date within the next 6 months.",
+      });
     }
 
     // Validate reservation_name
-    if (typeof name !== 'string') {
-      return res.status(422).json({ error: "The reservation_name should be a string" });
+    if (typeof name !== "string") {
+      return res
+        .status(422)
+        .json({ error: "The reservation_name should be a string" });
     }
 
     // Validate reservation_note (optional)
-    if (note !== undefined && (typeof note !== 'string' || note.length > 1000)) {
-      return res.status(422).json({ error: "The reservation_note should be a string with a maximum length of 1000 characters" });
+    if (
+      note !== undefined &&
+      (typeof note !== "string" || note.length > 1000)
+    ) {
+      return res.status(422).json({
+        error:
+          "The reservation_note should be a string with a maximum length of 1000 characters",
+      });
     }
 
     // Validate status
     if (!isInteger(status) || status < 0 || status > 4) {
-      return res.status(422).json({ error: "The status should be an integer between 0 and 4" });
+      return res
+        .status(422)
+        .json({ error: "The status should be an integer between 0 and 4" });
     }
 
     // Create a reservation and save it to the database
@@ -77,10 +97,9 @@ router.post('/', async (req, res, next) => {
       status,
       userId,
       spotId,
-      roomId
+      roomId,
     });
     res.status(201).json({ message: "Reservation registered" });
-
   } catch (error) {
     // Handle errors
     next(error);
@@ -88,23 +107,17 @@ router.post('/', async (req, res, next) => {
 });
 
 // PUT: update a reservation
-router.put('/:id', async (req, res, next) => {
+router.put("/:id", async (req, res, next) => {
   try {
-    const {id}= req.params;
-    const {
-      date,
-      name,
-      note,
-      status,
-      userId,
-      spotId,
-      roomId
-    } = req.body;
+    const { id } = req.params;
+    const { date, name, note, status, userId, spotId, roomId } = req.body;
 
     let reservation = await Reservation.findByPk(id);
 
     if (!reservation) {
-      return res.status(404).json({ error: `Reservation with id:${id} not found` });
+      return res
+        .status(404)
+        .json({ error: `Reservation with id:${id} not found` });
     }
 
     // Update the reservation attributes
@@ -125,22 +138,26 @@ router.put('/:id', async (req, res, next) => {
 });
 
 /* DELETE */
-router.delete('/', async (req, res, next) => {
+router.delete("/", async (req, res, next) => {
   try {
     const { id } = req.body;
 
-    if (!id || typeof id !== 'number' || !Number.isInteger(id)) {
-      return res.status(422).json({ error: "Invalid reservation_id. It should be a whole number" });
+    if (!id || typeof id !== "number" || !Number.isInteger(id)) {
+      return res
+        .status(422)
+        .json({ error: "Invalid reservation_id. It should be a whole number" });
     }
 
     const deletedReservation = await Reservation.destroy({
       where: {
-        id: id
-      }
+        id: id,
+      },
     });
 
     if (deletedReservation === 0) {
-      return res.status(404).json({ error: `Reservation with id:${id} not found` });
+      return res
+        .status(404)
+        .json({ error: `Reservation with id:${id} not found` });
     }
 
     res.json({ message: `Reservation with id:${id} was deleted` });
