@@ -6,6 +6,12 @@
     "start": "node --watch ./bin/www",
     "test": "jest --coverage --detectOpenHandles"
   },
+  "husky": {
+    "hook": {
+      "pre-commit": "npm run test",
+      "pre-push": "npm run test"
+    }
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cookie-parser": "~1.4.4",
@@ -13,6 +19,7 @@
     "dotenv": "^16.3.1",
     "express": "~4.16.1",
     "express-session": "^1.17.3",
+    "husky": "^8.0.3",
     "jsonwebtoken": "^9.0.2",
     "morgan": "~1.9.1",
     "pg": "^8.11.3",

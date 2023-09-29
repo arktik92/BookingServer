@@ -8,7 +8,7 @@ const session = require("express-session");
 // MARK: - Clé secrete
 const SECRET_KEY = process.env.SECRET_KEY;
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", async (req, res, next) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
@@ -32,8 +32,12 @@ router.post("/signup", async (req, res) => {
   //     phoneNumber: req.body.phoneNumber
   // };
 
-  await User.create(user);
-  res.status(201).json({ user });
+  try {
+    await User.create(user);
+    res.status(201).json({ user });
+  } catch (e) {
+    res.status(500).send(e.message)
+  }
 });
 
 router.post("/signin", async (req, res) => {
@@ -47,7 +51,7 @@ router.post("/signin", async (req, res) => {
     return res
       .status(400)
       .json({ message: "Nom d'utilisateur ou mot de passe incorrect" });
-      
+
   console.log(`userID: ${user.id}`);
 
   if (!req.session) {

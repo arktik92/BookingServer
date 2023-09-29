@@ -3,7 +3,7 @@ const app = require("../app");
 const supertest = require("supertest");
 
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTU4OTc0MTQsImV4cCI6MTY5NTkwMTAxNH0.U_d98XVijcbGxl0Pzhlr_6nar7MdQg27JoDuLE6o_hQ";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTU5MTE4ODQsImV4cCI6MTY5NTkxNTQ4NH0.sXY1SqtIyBHmb2e5utywZqzJ6JXA-wkQKJ81_1enfbA";
 
 /*----------------------------------------------------------------------------RESERVATIONS-------------------------------------------------------------------------------------------*/
 

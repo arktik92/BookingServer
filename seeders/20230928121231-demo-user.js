@@ -5,7 +5,6 @@ const bcrypt = require("bcrypt");
 module.exports = {
   async up(queryInterface, Sequelize) {
     const salt = await bcrypt.genSalt(10);
-    const hashedPasswordStephanie = await bcrypt.hash("imAprincess", salt);
 
     await queryInterface.bulkInsert(
       "Users",

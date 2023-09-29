@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.55% </span>
+                <span class="strong">96.66% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>28/29</span>
+                <span class='fraction'>29/30</span>
             </div>
         
             
@@ -112,8 +112,7 @@
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
 <a name='L49'></a><a href='#L49'>49</a>
-<a name='L50'></a><a href='#L50'>50</a>
-<a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L50'></a><a href='#L50'>50</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -124,7 +123,6 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -145,6 +143,7 @@
 <span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
@@ -156,61 +155,59 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const jwt = require('jsonwebtoken');
-const session = require('express-session');
-require('dotenv').config();
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var express = require("express");
+var path = require("path");
+var cookieParser = require("cookie-parser");
+var logger = require("morgan");
+const jwt = require("jsonwebtoken");
+const session = require("express-session");
+require("dotenv").config();
 &nbsp;
 var app = express();
-const authRouter = require('./routes/auth');
-var indexRouter = require('./routes/index');
-&nbsp;
+const authRouter = require("./routes/auth");
+var indexRouter = require("./routes/index");
 &nbsp;
 // MARK: - Middlewares
-app.use(logger('dev'));
+app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(
-    session({
-      secret: process.env.SECRET_KEY, // Secret pour signer la session
-      resave: false,
-      saveUninitialized: true,
-    })
-  );
+  session({
+    secret: process.env.SECRET_KEY, // Secret pour signer la session
+    resave: false,
+    saveUninitialized: true,
+  }),
+);
 &nbsp;
 const verifyJWT = (req, res, next) =&gt; {
-    const  SECRET_KEY = process.env.SECRET_KEY; // A remplacer par la même clé secrète que dans la route signin
-    const token = req.header('Authorization');
-  
-    if(!token) return res.status(401).json({ auth: false, message: 'No token provided.' });
-  
-    try {
-      const decoded = jwt.verify(token, SECRET_KEY);
-      console.log(decoded);
-      req.user = decoded;
-      next(); // Si le token est valide, on passe à la suite
-    } catch (e) {
-<span class="cstat-no" title="statement not covered" >      res.status(400).json({ auth: false, message: 'Invalid token.' });</span>
-    }
-  };
+  const SECRET_KEY = process.env.SECRET_KEY; // A remplacer par la même clé secrète que dans la route signin
+  const token = req.header("Authorization");
 &nbsp;
+  if (!token)
+    return res.status(401).json({ auth: false, message: "No token provided." });
 &nbsp;
-app.use('/auth', authRouter);
+  try {
+    const decoded = jwt.verify(token, SECRET_KEY);
+    console.log(decoded);
+    req.user = decoded;
+    next(); // Si le token est valide, on passe à la suite
+  } catch (e) {
+<span class="cstat-no" title="statement not covered" >    res.status(400).json({ auth: false, message: "Invalid token." });</span>
+  }
+};
+&nbsp;
+app.use("/auth", authRouter);
 &nbsp;
 // MARK: - Route principale
-app.use('/api', verifyJWT, indexRouter);
+app.use("/api", verifyJWT, indexRouter);
 &nbsp;
 module.exports = app;
 &nbsp;</pre></td></tr></table></pre>
@@ -220,7 +217,7 @@ module.exports = app;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-09-28T10:38:27.085Z
+                at 2023-09-28T14:50:37.747Z
             </div>
         <script src="../prettify.js"></script>
         <script>
