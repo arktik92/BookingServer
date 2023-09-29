@@ -8,7 +8,7 @@
   },
   "husky": {
     "hook": {
-      "pre-commit": "jest",
+      "pre-commit": "npm run test",
       "pre-push": "npm run test"
     }
   },
