@@ -22,55 +22,6 @@ router.get("/me", async (req, res, next) => {
   res.json(user);
 });
 
-/* POST */
-const emailValidator = (email) => {
-  // Regular expression for a basic email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-};
-
-router.post("/", async (req, res, next) => {
-  try {
-    const { role, firstName, lastName, email, phoneNumber, password } =
-      req.body;
-
-    // Validate input data types
-    if (
-      typeof role !== "string" ||
-      typeof firstName !== "string" ||
-      typeof lastName !== "string" ||
-      typeof phoneNumber !== "string" ||
-      typeof password !== "string"
-    ) {
-      return res.status(400).json({ error: "All attributes must be strings." });
-    }
-
-    // Validate email format
-    if (!emailValidator(email)) {
-      return res
-        .status(400)
-        .json({ error: "Email input is not in a valid email format." });
-    }
-
-    // Additional validation for email and phone number if needed
-
-    // Create the user
-    const newUser = await User.create({
-      role,
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      password,
-    });
-
-    res.status(201).json({ message: "New user added", user: newUser });
-  } catch (error) {
-    // Handle errors
-    next(error);
-  }
-});
-
 /* PUT */
 router.put("/:id", async (req, res, next) => {
   try {

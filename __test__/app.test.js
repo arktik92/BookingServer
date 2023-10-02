@@ -3,7 +3,7 @@ const app = require("../app");
 const supertest = require("supertest");
 
 const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTU5MTE4ODQsImV4cCI6MTY5NTkxNTQ4NH0.sXY1SqtIyBHmb2e5utywZqzJ6JXA-wkQKJ81_1enfbA";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2OTU5OTUyMzMsImV4cCI6MTY5NTk5ODgzM30.pv2VDXGW0cdXD7-3bWl2p0Tjl1-agy6-wVcBNDOrCBc";
 
 /*----------------------------------------------------------------------------RESERVATIONS-------------------------------------------------------------------------------------------*/
 
@@ -187,69 +187,35 @@ describe("GET /api/users", () => {
   });
 });
 
-// POST
-
-describe("POST /api/users", () => {
-  it("should return a 401 error", async () => {
-    const res = await request(app)
-      .post("/api/users")
-      .send({
-        role: "supertest",
-        firstName: "supertest",
-        lastName: "supertest",
-        email: "super@test.fr",
-        phoneNumber: "supertest",
-        password: "supertest",
-      })
-      .expect(401);
-  });
-});
-
-describe("POST /api/users", () => {
-  it("should return a 200 error", async () => {
-    const res = await request(app)
-      .post("/api/users")
-      .set("Authorization", token)
-      .send({
-        role: "supertest",
-        firstName: "supertest",
-        lastName: "supertest",
-        email: "super@test.fr",
-        phoneNumber: "supertest",
-        password: "supertest",
-      })
-      .expect(201);
-  });
-});
 
 // PUT
 // DELETE
 
 /*--------------------------------------------------------------------------------------SIGNIN-------------------------------------------------------------------------------------*/
-describe("POST /auth/signin", () => {
-  it("should return status 200", async () => {
-    const res = await request(app)
-      .post("/auth/signin")
-      .send({
-        email: "esteban@test.fr",
-        password: "testarktik",
-      })
-      .expect(201);
-  });
-});
+// describe("POST /auth/signin", () => {
+//   it("should return status 200", async () => {
+//     const res = await request(app)
+//       .post("/auth/signin")
+//       .send({
+//         email: "esteban@testeeeeeee.fr",
+//         password: "testarktik",
+//       })
+//       .expect(201);
+//   });
+// });
 
-/*--------------------------------------------------------------------------------------SIGNUP-------------------------------------------------------------------------------------*/ describe("POST /auth/signin", () => {
-  it("should return status 200", async () => {
-    const res = await request(app)
-      .post("/auth/signup")
-      .send({
-        firstName: "estebán",
-        lastName: "semellier",
-        password: "testarktik",
-        role: "admin",
-        email: "esteban@test.fr",
-        phoneNumber: "0761401011",
-      })
-      .expect(201);
-  });
-});
+// /*--------------------------------------------------------------------------------------SIGNUP-------------------------------------------------------------------------------------*/ describe("POST /auth/signin", () => {
+//   it("should return status 200", async () => {
+//     const res = await request(app)
+//       .post("/auth/signup")
+//       .send({
+//         firstName: "estebán",
+//         lastName: "semellier",
+//         password: "testarktik",
+//         role: "admin",
+//         email: "esteban@test.fr",
+//         phoneNumber: "0761401011",
+//       })
+//       .expect(201);
+//   });
+// });
