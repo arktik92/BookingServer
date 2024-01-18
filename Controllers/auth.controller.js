@@ -103,38 +103,42 @@ const signUp = async (req, res, next) => {
 
 const sendEmailForResetPwd = async (req, res) => {
   const email = req.body.email;
-    // Configurer Nodemailer
-    let transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-          user: 'esteban.semellier@gmail.com',
-          pass: 'hzls qqiw huxq abbu'
-      }
+  
+  // Configurer Nodemailer
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'esteban.semellier@gmail.com',
+        pass: 'hzls qqiw huxq abbu'
+    }
   });
 
-    const resetUrl = `http://127.0.0.1:8080/auth/resetpassword`; // URL de réinitialisation
-
-    // Contenu de l'email
-    let mailOptions = {
-      from: 'esteban.semellier@gmail.com',
-      to: email,
-      subject: 'Réinitialisation du mot de passe',
-      html: `
-          <p>Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien ci-dessous :</p>
-          <a href="${resetUrl}">Réinitialiser le mot de passe</a>
-      `
+  // Encoder l'email pour l'inclure dans l'URL
+  const encodedEmail = encodeURIComponent(email);
+  const resetUrl = `http://127.0.0.1:8080/auth/resetpassword?email=${encodedEmail}`; 
+  
+  // Contenu de l'email
+  let mailOptions = {
+    from: 'esteban.semellier@gmail.com',
+    to: email,
+    subject: 'Réinitialisation du mot de passe',
+    html: `
+        <p>Pour réinitialiser votre mot de passe, veuillez cliquer sur le lien ci-dessous :</p>
+        <a href="${resetUrl}">Réinitialiser le mot de passe</a>
+    `
   };
 
-    // Envoyer l'email
-    await transporter.sendMail(mailOptions)
-    .then(() => {
-      res.send('Email envoyé');
-    })
+  // Envoyer l'email
+  await transporter.sendMail(mailOptions)
+  .then(() => {
+    res.send('Email envoyé');
+  })
 };
 
 
+
 const resetPassword = async (req, res, next) => {
-  const { email, password: newPassword } = req.body; // Utiliser req.body ici
+  const { email, password: newPassword } = req.body;
 
   if (!email || !newPassword) {
       return res.status(400).send('Email et mot de passe sont requis.');

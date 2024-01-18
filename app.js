@@ -14,6 +14,7 @@ var indexRouter = require("./routes/index");
 // MARK: - Middlewares
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,6 +31,7 @@ app.use(
     saveUninitialized: true,
   }),
 );
+app.set('view engine', 'ejs');
 
 const verifyJWT = (req, res, next) => {
   const SECRET_KEY = process.env.SECRET_KEY; // A remplacer par la même clé secrète que dans la route signin

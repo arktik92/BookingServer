@@ -1,7 +1,7 @@
 document.getElementById('resetPasswordForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const email = document.getElementById('email').value;
+    const email = document.getElementById('email').value; 
     const newPassword = document.getElementById('password').value;
 
     console.log('Email:', email, 'Nouveau mot de passe:', newPassword);

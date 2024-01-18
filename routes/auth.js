@@ -8,7 +8,9 @@ router.post("/signup", authController.signUp);
 router.post("/signin", authController.signIn);
 
 router.get("/resetpassword", (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'resetPassword.html'));
+    const email = req.query.email;
+    res.render('resetPassword', { email: email });
+    // res.sendFile(path.join(__dirname, '..', 'public', 'resetPassword.html'));
 });
 
 router.post("/sendemail", authController.sendEmailForResetPwd);
