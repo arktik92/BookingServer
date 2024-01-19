@@ -21,7 +21,7 @@ const getCurrentUser =  async (req, res, next) => {
 const put = async (req, res, next) => {
     try {
       const { id } = req.params;
-      const { role, firstName, lastName, email, phoneNumber, password } =
+      const { role, firstName, lastName, email, phoneNumber } =
         req.body;
   
       let user = await User.findByPk(id);
@@ -71,6 +71,8 @@ const destroy = async (req, res, next) => {
       next(error);
     }
   }
+
+  
   
 module.exports = {
     get,

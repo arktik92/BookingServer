@@ -14,6 +14,6 @@ router.post("/", reservationController.post);
 router.put("/:id", reservationController.put);
 
 /* DELETE */
-router.delete("/", reservationController.destroy);
+router.delete("/:id", reservationController.destroy);
 
 module.exports = router;
