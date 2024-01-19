@@ -48,7 +48,8 @@ const signIn = async (req, res) => {
 
     // Creation du payload qui va servir a la creation du token 
   const payload = {
-    username: user.username,
+    id: user.id,
+    email: user.email,
     role: user.role
   };
 
