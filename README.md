@@ -25,7 +25,9 @@ Créer le fichiers .env
 touch .env
 ```
 
-Ajouter les configurations du fichier env
+
+Ajouter les configurations du fichier .env
+
 ```bash
 echo -e "PORT=your_port
 DB_HOST=your_host
@@ -34,7 +36,8 @@ DB_PASS=your_password
 SECRET_KEY=your_secret_key
 DB_NAME_DEV=database_development
 DB_NAME_TEST=database_test
-DB_NAME_PROD=database_production"
+DB_NAME_PROD=database_production" > ".env"
+
 ```
 
 Créer la DB avec sequelize-cli, migrer les modèles et les seeds
