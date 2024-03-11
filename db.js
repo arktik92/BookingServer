@@ -1,6 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
-// const config = require('./config/config.json')['development'];
 require("dotenv").config();
 
 const config = {
@@ -34,11 +33,9 @@ const sequelize = new Sequelize(
   {
     host: config.host,
     dialect: config.dialect,
+    logging: false,
   },
 );
-
-// A voir ????
-// const index = require("./models/index")( sequelize, DataTypes)
 
 const Reservation = require("./models/reservation")(sequelize, DataTypes);
 const Room = require("./models/room")(sequelize, DataTypes);

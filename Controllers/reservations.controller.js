@@ -22,6 +22,26 @@ const get = async (req, res, next) => {
     }
   }
 
+  const getUserReservations = async (req, res, next) => {
+    try {
+      const token = req.headers.authorization;
+      if (!token) {
+        return res.status(401).send("Accès refusé, aucun token fourni");
+    }
+
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+      const userId = decoded.id;
+
+      const reservations = await Reservation.findAll({ where: {userId: userId}});
+
+      res.json({ reservations });
+
+    } catch (error) {
+      next(error);
+    }
+  }
+
 const post =  async (req, res, next) => {
     try {
       const { date, name, note, status, spotId, roomId } = req.body;
@@ -219,6 +239,7 @@ const put = async (req, res, next) => {
 
   module.exports = {
     get,
+    getUserReservations,
     post,
     put,
     destroy,

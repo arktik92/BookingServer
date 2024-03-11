@@ -1,4 +1,6 @@
 const { User } = require("../db.js");
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 
 const get = async (req, res, next) => {
     try {
@@ -20,23 +22,44 @@ const getCurrentUser =  async (req, res, next) => {
 
 const put = async (req, res, next) => {
     try {
-      const { id } = req.params;
-      const { role, firstName, lastName, email, phoneNumber } =
-        req.body;
-  
-      let user = await User.findByPk(id);
-  
+      const token = req.headers.authorization;
+      if (!token) {
+        return res.status(401).send("Accès refusé, aucun token fourni");
+    }
+      console.log("TOKEN:", token);
+
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+      const userId = decoded.id;
+
+      console.log("USERID:", userId);
+
+      const { firstName, lastName, email, phoneNumber, password } = req.body;
+
+      console.log("BODY:", req.body);
+
+      const user = await User.findOne({ where: {id: userId}});
+      
+      console.log("USER:", user);
+
       if (!user) {
-        return res.status(404).json({ error: `User with id:${id} not found` });
+        return res.status(404).json({ error: `User with id:${userId} not found` });
       }
+
+      // Creation du Salt pour le cryptage du password
+      const salt = await bcrypt.genSalt(10);
+
+      // Creation du mot de passe hash via BCrypt bcrypt.hash("password", salt);
+      const hashedPassword = await bcrypt.hash(password, salt);
   
       // Update the spot attribute
-      user.role = role;
       user.firstName = firstName;
       user.lastName = lastName;
       user.email = email;
       user.phoneNumber = phoneNumber;
-      user.password = password;
+      user.password = hashedPassword;
+
+      console.log("NEWUSER:", user);
   
       await user.save();
   

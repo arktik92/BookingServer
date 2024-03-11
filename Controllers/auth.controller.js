@@ -83,7 +83,7 @@ const signUp = async (req, res, next) => {
     firstName,
     lastName,
     password: hashedPassword,
-    role,
+    role: "user",
     email,
     phoneNumber,
   };

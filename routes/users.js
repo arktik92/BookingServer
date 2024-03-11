@@ -11,7 +11,7 @@ router.get("/", userController.get);
 router.get("/me", userController.getCurrentUser);
 
 /* PUT */
-router.put("/:id", userController.put);
+router.put("/", userController.put);
 
 /* DELETE */
 router.delete("/", userController.destroy);
