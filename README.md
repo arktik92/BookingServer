@@ -4,7 +4,7 @@ Server destiner à gérer la partie back-end de l'application BookingApp
 
 ## Start
 
-Ces instructions vous permettront d'obtenir une copie du projet en cours d'exécution sur votre machine locale à des fins de développement et de test. Voir le déploiement pour des notes sur la façon de déployer le projet sur un système en direct.
+Ces instructions vous permettront d'obtenir une copie du projet en cours d'exécution sur votre machine locale à des fins de développement et de test.
 
 ### Prérequis
 
