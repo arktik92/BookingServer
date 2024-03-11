@@ -1,7 +1,7 @@
   {
     "swagger": "2.0",
     "info": {
-      "title": "My API",
+      "title": "Booking Server API",
       "description": "Description",
       "version": "1.0.0"
     },
