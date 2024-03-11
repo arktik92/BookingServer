@@ -1,7 +1,8 @@
-const { User } = require("../db.js");
+const { User } = require("../config/db.config.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+// MARK: - Get all users if user has the right token
 const get = async (req, res, next) => {
     try {
       const users = await User.findAll();
@@ -11,6 +12,7 @@ const get = async (req, res, next) => {
     }
   }
 
+  // MARK: - Get current user if user has the right token
 const getCurrentUser =  async (req, res, next) => {
     const id = req.session.userId;
     console.log(id);
@@ -20,6 +22,7 @@ const getCurrentUser =  async (req, res, next) => {
     res.json(user);
   }
 
+  // MARK: - Put a user if user has the right token
 const put = async (req, res, next) => {
     try {
       const token = req.headers.authorization;
@@ -69,6 +72,7 @@ const put = async (req, res, next) => {
     }
   }
 
+  // MARK: - Delete a user if user has the right token
 const destroy = async (req, res, next) => {
     try {
       const { id } = req.body;

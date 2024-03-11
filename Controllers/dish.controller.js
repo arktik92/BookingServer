@@ -1,6 +1,7 @@
 
-const { Dish} = require("../db");
+const { Dish} = require("../config/db.config");
 
+// MARK: - Get all dishes
 const get = async (req, res, next) => {
     try {
         const dishes = await Dish.findAll();
@@ -10,14 +11,7 @@ const get = async (req, res, next) => {
     }
 }
 
-/*
-name: DataTypes.STRING,
-    description: DataTypes.STRING,
-    price: DataTypes.FLOAT,
-    category: DataTypes.STRING,
-    quantity: DataTypes.INTEGER
-*/
-
+// MARK: - Post a dish
 const post = async (req, res, next) => {
     const { name, description, price, category, quantity } = req.body;
 

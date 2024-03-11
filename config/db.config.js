@@ -1,7 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 
-require("dotenv").config();
-
+// MARK: - Configuration DB
 const config = {
   development: {
     username: "estebansemellier",
@@ -37,11 +36,11 @@ const sequelize = new Sequelize(
   },
 );
 
-const Reservation = require("./models/reservation")(sequelize, DataTypes);
-const Room = require("./models/room")(sequelize, DataTypes);
-const Spot = require("./models/spot")(sequelize, DataTypes);
-const User = require("./models/user")(sequelize, DataTypes);
-const Dish = require("./models/dish")(sequelize, DataTypes);
+const Reservation = require("../models/reservation")(sequelize, DataTypes);
+const Room = require("../models/room")(sequelize, DataTypes);
+const Spot = require("../models/spot")(sequelize, DataTypes);
+const User = require("../models/user")(sequelize, DataTypes);
+const Dish = require("../models/dish")(sequelize, DataTypes);
 
 module.exports = {
   Reservation,

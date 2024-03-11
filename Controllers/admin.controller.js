@@ -1,5 +1,6 @@
-const { User } = require("../db.js");
+const { User } = require("../config/db.config.js");
 
+// MARK: - Edit role for Admin
 const editRole = async (req, res, next) => {
     try {
         const { id } = req.params;

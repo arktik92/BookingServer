@@ -1,6 +1,7 @@
 
-const { Spot } = require("../db.js");
+const { Spot } = require("../config/db.config.js");
 
+// MARK: - Get all spots if user has the right token
 const get = async (req, res, next) => {
     try {
       const spots = await Spot.findAll();
@@ -10,6 +11,7 @@ const get = async (req, res, next) => {
     }
   }
 
+  // MARK: - Post a spot if user has the right token
 const post = async (req, res, next) => {
     const { name } = req.body;
   
@@ -28,6 +30,7 @@ const post = async (req, res, next) => {
     }
   }
 
+  // MARK: - Put a spot if user has the right token
 const put =  async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -50,6 +53,7 @@ const put =  async (req, res, next) => {
     }
   }
 
+  // MARK: - Delete a spot if user has the right token
 const destroy = async (req, res, next) => {
     try {
       const { id } = req.body;

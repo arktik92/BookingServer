@@ -1,4 +1,4 @@
-const { User } = require("../db");
+const { User } = require("../config/db.config");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const crypto = require('crypto');
@@ -10,13 +10,14 @@ const nodemailer = require('nodemailer');
 const SECRET_KEY = process.env.SECRET_KEY;
 
 
-// Fonction avec un regex qui verifie le pattern de l'email
+// MARK: - Fonction avec un regex qui verifie le pattern de l'email
 const emailValidator = (email) => {
     // Regular expression for a basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
+// MARK: - Fonction signIn 
 const signIn = async (req, res) => {
     // Recherche du user grace a la methode findOne et a l'email
   const user = await User.findOne({
@@ -61,6 +62,7 @@ const signIn = async (req, res) => {
   // res.json({message: 'signin'});
 }
 
+// MARK: - Fonction signUp
 const signUp = async (req, res, next) => {
     // Creation du Salt pour le cryptage du password
   const salt = await bcrypt.genSalt(10);
@@ -100,8 +102,7 @@ const signUp = async (req, res, next) => {
   }
 };
 
-
-
+// MARK: - Fonction sendEmailForResetPwd
 const sendEmailForResetPwd = async (req, res) => {
   const email = req.body.email;
   
@@ -136,8 +137,7 @@ const sendEmailForResetPwd = async (req, res) => {
   })
 };
 
-
-
+// MARK: - Fonction resetPassword when func sendEmailForResetPwd is called
 const resetPassword = async (req, res, next) => {
   const { email, password: newPassword } = req.body;
 
@@ -164,41 +164,6 @@ const resetPassword = async (req, res, next) => {
       res.status(500).send('Erreur serveur.');
   }
 };
-
-
-const newResetPassword = async (req, res, next) => {
-    try {
-        const { email } = req.body;
-
-        if (!email) {
-            return res.status(400).json({ error: 'Email requis' });
-        }
-
-        let user = await User.findOne({ where: { email: email } });
-
-        if (!user) {
-            return res.status(404).json({ error: `Aucun utilisateur trouvé avec l'email : ${email}` });
-        }
-
-        // Générer un token de réinitialisation
-        const resetToken = crypto.randomBytes(20).toString('hex');
-
-        // Enregistrer le token avec l'utilisateur, avec une expiration
-        user.resetPasswordToken = resetToken;
-        user.resetPasswordExpires = Date.now() + 3600000; // 1 heure
-
-        await user.save();
-
-        // Envoyer l'email
-        await sendEmailForResetPwd(user.email, resetToken);
-
-        res.status(200).json({ message: "Email de réinitialisation envoyé" });
-    } catch (error) {
-        console.error('Reset Password Error:', error);
-        next(error);
-    }
-};
-
 
 module.exports = {
     signIn,

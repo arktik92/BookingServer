@@ -1,5 +1,6 @@
-const { Room } = require("../db.js");
+const { Room } = require("../config/db.config.js");
 
+// MARK: - Get all rooms if user has the right token
 const get = async (req, res, next) => {
     try {
       const rooms = await Room.findAll();
@@ -9,6 +10,7 @@ const get = async (req, res, next) => {
     }
   }
 
+// MARK: - Post a room if user has the right token
 const post = async (req, res, next) => {
     const { name } = req.body;
   
@@ -27,6 +29,7 @@ const post = async (req, res, next) => {
     }
   }
 
+// MARK: - Put a room if user has the right token
 const put = async (req, res, next) => {
     try {
       const { id } = req.params;
@@ -49,6 +52,7 @@ const put = async (req, res, next) => {
     }
   }
 
+// MARK: - Delete a room if user has the right token
 const destroy = async (req, res, next) => {
     try {
       const { id } = req.body;

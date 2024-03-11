@@ -3,15 +3,12 @@ const swaggerDefinition = {
     info: {
         title: 'PCO API',
         version: '1.0.0',
-        description: 'API for PCO',
+        description: 'API for Booking and Ordering',
     },
     servers: [
         {
             url: 'http://localhost:8080',
             description: 'Development',
-        },{
-            url: 'http://127.0.0.1:8080',
-            description: 'Production'
         }
     ],
     components: {
