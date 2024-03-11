@@ -13,6 +13,7 @@
     "paths": {
       "/auth/signup": {
         "post": {
+          "tags": ["Auth"],
           "description": "register a new user",
           "parameters": [
             {
@@ -58,6 +59,7 @@
       },
       "/auth/signin": {
         "post": {
+          "tags": ["Auth"],
           "description": "Login a user",
           "parameters": [
             {
@@ -88,6 +90,7 @@
       },
       "/auth/resetpassword": {
         "get": {
+          "tags": ["Auth"],
           "description": "Reset password",
           "parameters": [
             {
@@ -105,6 +108,7 @@
       },
       "/auth/sendemail": {
         "post": {
+          "tags": ["Auth"],
           "description": "Send an email to reset password",
           "parameters": [
             {
@@ -129,6 +133,7 @@
       },
       "/auth/sendpassword": {
         "put": {
+          "tags": ["Auth"],
           "description": "Submit a new password after email verication",
           "parameters": [
             {
@@ -165,6 +170,7 @@
       },
       "/api/reservations/": {
         "get": {
+          "tags": ["Reservation"],
           "description": "get all reservations",
           "parameters": [
             {
@@ -186,6 +192,7 @@
           }
         },
         "post": {
+          "tags": ["Reservation"],
           "description": "post a reservation",
           "parameters": [
             {
@@ -239,6 +246,7 @@
       },
       "/api/reservations/userreservations": {
         "get": {
+          "tags": ["Reservation"],
           "description": "get user reservations",
           "parameters": [
             {
@@ -261,7 +269,9 @@
         }
       },
       "/api/reservations/{id}": {
+        "tags": ["Reservation"],
         "put": {
+          "tags": ["Reservation"],
           "description": "update a reservation",
           "parameters": [
             {
@@ -319,6 +329,7 @@
           }
         },
         "delete": {
+          "tags": ["Reservation"],
           "description": "delete a reservation",
           "parameters": [
             {
@@ -356,7 +367,9 @@
         }
       },
       "/api/rooms/": {
+        "tags": ["Room"],
         "get": {
+          "tags": ["Room"],
           "description": "get all rooms",
           "parameters": [
             {
@@ -378,6 +391,7 @@
           }
         },
         "post": {
+          "tags": ["Room"],
           "description": "post a room",
           "parameters": [
             {
@@ -414,6 +428,7 @@
           }
         },
         "delete": {
+          "tags": ["Room"],
           "description": "delete a room",
           "parameters": [
             {
@@ -455,6 +470,7 @@
       },
       "/api/rooms/{id}": {
         "put": {
+          "tags": ["Room"],
           "description": "update a room",
           "parameters": [
             {
@@ -499,6 +515,7 @@
       },
       "/api/spots/": {
         "get": {
+          "tags": ["Spot"],
           "description": "get all spots",
           "parameters": [
             {
@@ -520,6 +537,7 @@
           }
         },
         "post": {
+          "tags": ["Spot"],
           "description": "post a spot",
           "parameters": [
             {
@@ -556,6 +574,7 @@
           }
         },
         "delete": {
+          "tags": ["Spot"],
           "description": "delete a spot",
           "parameters": [
             {
@@ -597,6 +616,7 @@
       },
       "/api/spots/{id}": {
         "put": {
+          "tags": ["Spot"],
           "description": "update a spot",
           "parameters": [
             {
@@ -641,6 +661,7 @@
       },
       "/api/users/": {
         "get": {
+          "tags": ["User"],
           "description": "get all users",
           "parameters": [
             {
@@ -662,6 +683,7 @@
           }
         },
         "put": {
+          "tags": ["User"],
           "description": "update a user",
           "parameters": [
             {
@@ -710,6 +732,7 @@
           }
         },
         "delete": {
+          "tags": ["User"],
           "description": "delete a user",
           "parameters": [
             {
@@ -751,6 +774,7 @@
       },
       "/api/users/me": {
         "get": {
+          "tags": ["User"],
           "description": "get current user",
           "parameters": [
             {
@@ -774,6 +798,7 @@
       },
       "/api/dish/": {
         "get": {
+          "tags": ["Dish"],
           "description": "get all dishes",
           "parameters": [
             {
@@ -795,6 +820,7 @@
           }
         },
         "post": {
+          "tags": ["Dish"],
           "description": "post a dish",
           "parameters": [
             {
@@ -845,6 +871,7 @@
       },
       "/api/admin/editrole/{id}": {
         "put": {
+          "tags": ["Admin"],
           "description": "update roles (only admin)",
           "parameters": [
             {
