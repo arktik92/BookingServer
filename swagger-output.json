@@ -91,9 +91,9 @@
       "/auth/resetpassword": {
         "get": {
           "tags": ["Auth"],
-          "description": "Reset password",
+          "description": "Reset password HTML page (Email verification)",
           "parameters": [
-            {
+            { 
               "name": "email",
               "in": "query",
               "type": "string"
@@ -426,46 +426,6 @@
               "description": "Unprocessable Entity"
             }
           }
-        },
-        "delete": {
-          "tags": ["Room"],
-          "description": "delete a room",
-          "parameters": [
-            {
-              "name": "Authorization",
-              "in": "header",
-              "type": "string"
-            },
-            {
-              "name": "body",
-              "in": "body",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "example": "99"
-                  }
-                }
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
-            },
-            "400": {
-              "description": "Bad Request"
-            },
-            "401": {
-              "description": "Unauthorized"
-            },
-            "404": {
-              "description": "Not Found"
-            },
-            "422": {
-              "description": "Unprocessable Entity"
-            }
-          }
         }
       },
       "/api/rooms/{id}": {
@@ -509,6 +469,40 @@
             },
             "404": {
               "description": "Not Found"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Room"],
+          "description": "delete a room",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "422": {
+              "description": "Unprocessable Entity"
             }
           }
         }
@@ -572,46 +566,6 @@
               "description": "Unprocessable Entity"
             }
           }
-        },
-        "delete": {
-          "tags": ["Spot"],
-          "description": "delete a spot",
-          "parameters": [
-            {
-              "name": "Authorization",
-              "in": "header",
-              "type": "string"
-            },
-            {
-              "name": "body",
-              "in": "body",
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "example": "99"
-                  }
-                }
-              }
-            }
-          ],
-          "responses": {
-            "200": {
-              "description": "OK"
-            },
-            "400": {
-              "description": "Bad Request"
-            },
-            "401": {
-              "description": "Unauthorized"
-            },
-            "404": {
-              "description": "Not Found"
-            },
-            "422": {
-              "description": "Unprocessable Entity"
-            }
-          }
         }
       },
       "/api/spots/{id}": {
@@ -655,6 +609,39 @@
             },
             "404": {
               "description": "Not Found"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Spot"],
+          "description": "delete a spot",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },{
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "422": {
+              "description": "Unprocessable Entity"
             }
           }
         }

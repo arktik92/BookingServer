@@ -14,6 +14,6 @@ router.post("/", roomController.post);
 router.put("/:id", roomController.put);
 
 /* DELETE */
-router.delete("/", roomController.destroy);
+router.delete("/:id", roomController.destroy);
 
 module.exports = router;

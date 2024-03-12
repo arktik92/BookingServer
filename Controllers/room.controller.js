@@ -55,7 +55,7 @@ const put = async (req, res, next) => {
 // MARK: - Delete a room if user has the right token
 const destroy = async (req, res, next) => {
     try {
-      const { id } = req.body;
+      const { id } = req.params;
   
       if (!id || typeof id !== "number" || !Number.isInteger(id)) {
         return res
