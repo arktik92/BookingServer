@@ -7,13 +7,10 @@ router.post("/signup", authController.signUp);
 
 router.post("/signin", authController.signIn);
 
-router.get("/resetpassword", (req, res) => {
-    const email = req.query.email;
-    res.render('resetPassword', { email: email });
-});
+router.get("/resetpassword", authController.resetPassword);
 
 router.post("/sendemail", authController.sendEmailForResetPwd);
 
-router.put("/sendpassword", authController.resetPassword);
+router.put("/sendpassword", authController.sendPassword);
 
 module.exports = router;
