@@ -1,25 +1,19 @@
-const { User } = require("../config/db.config.js");
+const adminService = require("../services/AdminService");
 
 // MARK: - Edit role for Admin
 const editRole = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { role } =
-            req.body;
+        const { role } = req.body;
 
-        let user = await User.findByPk(id);
+        // La logique de mise à jour est désormais encapsulée dans UserService
+        await userService.editUserRole(id, role);
 
-        if (!user) {
-            return res.status(404).json({ error: `User with id:${id} not found` });
-        }
-
-      // Update the spot attribute
-        user.role = role;
-
-    await user.save();
-
-    res.status(201).json({ message: "User updated successfully" });
+        res.status(201).json({ message: "User updated successfully" });
     } catch (error) {
+        if (error.message.includes('not found')) {
+            return res.status(404).json({ error: error.message });
+        }
         next(error);
     }
 }
