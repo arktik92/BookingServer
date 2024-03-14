@@ -137,7 +137,7 @@ const sendEmailForResetPwd = async (req, res) => {
   })
 };
 
-// MARK: - Fonction resetPassword when func sendEmailForResetPwd is called
+// MARK: - Fonction resetPassword 
 const sendPassword = async (req, res, next) => {
   const { email, password: newPassword } = req.body;
 

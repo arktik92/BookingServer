@@ -19,10 +19,6 @@ les différentes fonctionnalités :
 - Modifier ses informations 
 - Effectuer une réservation
 
-## FAQs
-
-futur !?!?
-
 ## Contact
 
 esteban.semellier@gmail.com

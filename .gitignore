@@ -3,4 +3,5 @@ node_modules
 .env
 .prettierignore
 .eslintingore
-
+logs/successLogs/*.log
+logs/errorLogs/*.log
