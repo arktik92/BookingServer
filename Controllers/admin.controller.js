@@ -6,7 +6,6 @@ const editRole = async (req, res, next) => {
         const { id } = req.params;
         const { role } = req.body;
 
-        // La logique de mise à jour est désormais encapsulée dans UserService
         await userService.editUserRole(id, role);
 
         res.status(201).json({ message: "User updated successfully" });

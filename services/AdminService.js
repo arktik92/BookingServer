@@ -1,7 +1,6 @@
 const { User } = require("../config/db.config.js");
 
 class AdminService {
-
     async editUserRole(id, newRole) {
         let user = await User.findByPk(id);
         if (!user) {

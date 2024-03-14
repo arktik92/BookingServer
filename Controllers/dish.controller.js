@@ -14,7 +14,6 @@ const post = async (req, res, next) => {
         const dish = await dishService.createDish(req.body);
         res.status(201).json({ message: "Dish registered", dish });
     } catch (error) {
-        // Gestion des erreurs de validation
         if (error.message.startsWith("The dish_")) {
             return res.status(422).json({ error: error.message });
         }

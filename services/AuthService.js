@@ -26,7 +26,7 @@ class AuthService {
         return { token };
     }
 
-    async signUp({ role, firstName, lastName, email, phoneNumber, password }) {
+    async signUp({ firstName, lastName, email, phoneNumber, password }) {
         if (!this.emailValidator(email)) {
         throw new Error("Email input is not in a valid email format.");
         }
