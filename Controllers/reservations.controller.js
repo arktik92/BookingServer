@@ -19,7 +19,7 @@ const getUserReservations = async (req, res, next) => {
     try {
       const userId = decodeToken(req.headers.authorization);
       const reservations = await reservationService.getUserReservations(userId);
-      res.json({ reservations });
+      res.json({reservations});
     } catch (error) {
       next(error);
     }

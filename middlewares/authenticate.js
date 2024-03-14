@@ -11,7 +11,7 @@ const checkAdminRole = (req, res, next) => {
 };
 
 const verifyJWT = (req, res, next) => {
-    const SECRET_KEY = process.env.SECRET_KEY; // A remplacer par la même clé secrète que dans la route signin
+    const SECRET_KEY = process.env.SECRET_KEY; 
     const token = req.header("Authorization");
 
 
@@ -20,9 +20,8 @@ const verifyJWT = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, SECRET_KEY);
-        console.log(decoded);
         req.user = decoded;
-        next(); // Si le token est valide, on passe à la suite
+        next();
     } catch (e) {
         res.status(400).json({ auth: false, message: "Invalid token." });
     }
