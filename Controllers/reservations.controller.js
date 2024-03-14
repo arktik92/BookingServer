@@ -8,9 +8,8 @@ const decodeToken = (token) => {
 
 const get = async (req, res, next) => {
     try {
-      const userId = decodeToken(req.headers.authorization);
-      const reservations = await reservationService.getAllReservations(userId);
-      res.json({ reservations });
+      const reservations = await reservationService.getAllReservations();
+      return res.json({ reservations });
     } catch (error) {
       next(error);
     }
@@ -19,7 +18,7 @@ const get = async (req, res, next) => {
 const getUserReservations = async (req, res, next) => {
     try {
       const userId = decodeToken(req.headers.authorization);
-      const reservations = await reservationService.getAllReservations(userId);
+      const reservations = await reservationService.getUserReservations(userId);
       res.json({ reservations });
     } catch (error) {
       next(error);

@@ -3,12 +3,10 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const jwt = require("jsonwebtoken");
 const session = require("express-session");
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
-const fs = require('fs');
-const Writable = require('stream').Writable
+const cors = require('cors');
 
 var app = express();
 
@@ -27,6 +25,12 @@ const swaggerDocument = require('./swagger-output.json');
 // MARK: - Config
 require("dotenv").config();
 
+// MARK: - CORS
+corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200
+};
+
 
 // // MARK: - Middlewares
 // // Options pour swaggerJSDoc
@@ -41,35 +45,10 @@ require("dotenv").config();
 
 
 app.use(express.static(path.join(__dirname, 'public')));
-// let logStream = fs.createWriteStream(path.join(__dirname, 'logs/morgan.log'), { 
-//   flags: 'a'
-// })
-
-// // setup the logger
-// app.use(morgan(':method :url :status :response-time ms - :res[content-length] :timed', {
-//   stream: logStream
-// }))
-
-// class MyStream extends Writable {
-//   write(line) {
-//       console.log("Logger -", line)
-//   }
-// }
-
-// morgan.token("timed", (req, res) => {
-//   return `A new ${req.method} request for ${req.url} was received. It took ${res.responseTime} milliseconds to be resolved`
-// })
-
-// let writer = new MyStream()
-
-// app.use(morgan('dev', { stream: writer }))
-
-
-// app.use(logger("dev"));
-// setup the logger
 app.use(morganMiddleware.successLog);
 app.use(morganMiddleware.errorLog);
 app.use(logger('dev'));
+app.use(cors(corsOptions));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument/*, swaggerSpec*/));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

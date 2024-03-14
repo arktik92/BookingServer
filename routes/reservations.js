@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
+const authenticate = require("../middlewares/authenticate.js");
 
 const reservationController = require('../Controllers/reservations.controller')
 
 
 /* GET */
-router.get("/", reservationController.get);
+router.get("/", authenticate.checkAdminRole, reservationController.get);
 router.get ("/userreservations", reservationController.getUserReservations);
 
 /* POST */

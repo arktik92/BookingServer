@@ -2,9 +2,13 @@ const jwt = require("jsonwebtoken");
 const { Reservation } = require("../config/db.config.js");
 
 class ReservationService {
-    async getAllReservations(userId) {
-        return await Reservation.findAll({ where: { userId: userId } });
+    async getAllReservations() {
+        return await Reservation.findAll();
     }
+
+    async getUserReservations(userId) {
+        return await Reservation.findAll({ where: { userId: userId}})
+    } 
 
     async createReservation(userId, reservationData) {
         return await Reservation.create({
