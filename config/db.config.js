@@ -23,7 +23,7 @@ const config = {
     host: "127.0.0.1",
     dialect: "postgres",
   },
-}["development"];
+}[process.env.NODE_ENV || "development"];
 
 const sequelize = new Sequelize(
   config.database,
