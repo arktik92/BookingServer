@@ -1,4 +1,3 @@
-const jwt = require("jsonwebtoken");
 const { Reservation } = require("../config/db.config.js");
 
 class ReservationService {

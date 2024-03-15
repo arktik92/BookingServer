@@ -1,6 +1,11 @@
 const authService = require('../services/AuthService');
+const {validationResult} = require('express-validator');
 
 const signIn = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+  }
     try {
         const token = await authService.signIn(req.body.email, req.body.password);
         res.status(201).json(token);
@@ -10,6 +15,10 @@ const signIn = async (req, res, next) => {
 }
 
 const signUp = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+  }
     try {
         const user = await authService.signUp(req.body);
         res.status(201).json({ user });
