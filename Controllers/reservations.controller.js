@@ -1,14 +1,6 @@
+// MARK: - Services
 const ReservationService = require('../services/ReservationService');
-const SpotService = require('../services/SpotService');
-
-const {Reservation, Spot} = require("../config/db.config.js");
-
-const jwt = require("jsonwebtoken");
-
-const decodeToken = (token) => {
-  if (!token) throw new Error("Accès refusé, aucun token fourni");
-  return jwt.verify(token, process.env.SECRET_KEY).id;
-};
+const { decodeToken } = require('../middlewares/authenticate');
 
 const get = async (req, res, next) => {
     const reservationService = new ReservationService();
@@ -33,12 +25,13 @@ const getUserReservations = async (req, res, next) => {
 
 const post = async (req, res, next) => {
   const userId = decodeToken(req.headers.authorization);
+  const { spot, reservation } = req.body;
   
   try {
-    const reservationService = new ReservationService(userId, req.body.reservation);
-    const reservation = await reservationService.createReservation(req.body.spot);
+    const reservationService = new ReservationService(userId, reservation);
+    const reservationData = await reservationService.createReservation(spot);
 
-    res.status(201).json({ message: "Reservation and spot registered", reservation });
+    res.status(201).json({ message: "Reservation and spot registered", reservationData });
   } catch (error) {
     next(error);
   }
@@ -47,9 +40,13 @@ const post = async (req, res, next) => {
 
 const put = async (req, res, next) => {
     const userId = decodeToken(req.headers.authorization);
-    const reservationService = new ReservationService(userId, req.params.id, req.body);
+    const reservationId = req.params.id;
+    const reservationData = req.body.reservation;
+    const reservationService = new ReservationService(userId, reservationData);
+    const spotdata = req.body.spot;
+    
     try { 
-      const updatedReservation = await reservationService.updateReservation();
+      const updatedReservation = await reservationService.updateReservation(reservationId, spotdata);
       res.status(201).json({ message: "Reservation updated successfully", updatedReservation });
     } catch (error) {
       next(error);
@@ -58,9 +55,11 @@ const put = async (req, res, next) => {
 
 const destroy = async (req, res, next) => {
   const userId = decodeToken(req.headers.authorization);
-  const reservationService = new ReservationService(userId, null, req.params.id);
+  const reservationId = req.params.id;
+
+  const reservationService = new ReservationService(userId, null);
     try {
-      const result = await reservationService.deleteReservation();
+      const result = await reservationService.deleteReservation(reservationId);
       res.json(result);
     } catch (error) {
       next(error);

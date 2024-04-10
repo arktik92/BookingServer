@@ -1,4 +1,4 @@
-const { Spot } = require("../config/db.config.js");
+const { Spot, Room } = require("../config/db.config.js");
 
 class SpotService {
     constructor(spotData) {
@@ -6,7 +6,12 @@ class SpotService {
     }
 
     async getAllSpots() {
-        return await Spot.findAll();
+        return await Spot.findAll({
+            include: [{
+                model: Room,
+                as: 'room', // Assurez-vous que cela correspond à l'alias défini dans l'association
+            }],
+        });
     }
 
     async createSpot() {

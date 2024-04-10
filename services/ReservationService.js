@@ -1,6 +1,4 @@
 const { Reservation, Spot, sequelize } = require("../config/db.config.js");
-const reservation = require("../models/reservation.js");
-const SpotService = require("./SpotService");
 
 
 class ReservationService {
@@ -13,7 +11,17 @@ class ReservationService {
     }
 
     async getUserReservations() {
-        return await Reservation.findAll({ where: { userId: this.userId}})
+        return await Reservation.findAll({ 
+            where: { userId: this.userId},
+            include: [{
+                model: Spot,
+                as: 'spots',
+                through: {
+                    attributes: [], 
+                },
+            }],
+            
+        })
     } 
 
     async createReservation(spotData) {
@@ -40,30 +48,45 @@ class ReservationService {
         }
     }
 
-    async updateReservation(reservationId, updateData) {
+    async updateReservation(reservationId, spotData) {
         const transaction = await sequelize.transaction();
         try {
-            let reservation = await Reservation.findByPk(reservationId, { transaction });
-        
-            if (!reservation) {
+            const reservation = await Reservation.findByPk(reservationId, {
+                include: [{
+                    model: Spot,
+                    as: 'spots',
+                    through: {
+                        attributes: [],
+                    },
+                }],
+                transaction: transaction // Déplacez la transaction ici
+            });
+    
+            if (!reservation || !reservation.spots.length) {
                 await transaction.rollback();
-                throw new Error(`Reservation with id:${reservationId} not found`);
+                throw new Error(`Reservation with id:${reservationId} not found or has no spots.`);
             }
-
+    
             if (reservation.userId !== this.userId) {
                 await transaction.rollback();
                 throw new Error(`Unauthorized to modify this reservation`);
             }
-
-            reservation = await reservation.update(updateData, { transaction });
-        
+    
+            const newReservation = await reservation.update(this.reservationData, { transaction });
+    
+            // Utilisez une boucle for...of pour attendre les mises à jour de chaque spot
+            for (let spot of reservation.spots) {
+                await spot.update(spotData, { transaction });
+            }
+    
             await transaction.commit();
-            return reservation;
+            return newReservation;
         } catch (error) {
             await transaction.rollback();
             throw error;
         }
     }
+    
 
     async deleteReservation(reservationId) {
         const transaction = await sequelize.transaction();
@@ -89,7 +112,6 @@ class ReservationService {
             throw error;
         }
     }
-    
 }
 
 

@@ -4,11 +4,11 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require('nodemailer');
 
 class AuthService {
-    constructor(email, password, firstName, lastName, phoneNumber, newPassword) {
+    constructor(email, password, firstname, lastname, phoneNumber, newPassword) {
         this.email = email;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.phoneNumber = phoneNumber;
         this.newPassword = newPassword;
 
@@ -39,7 +39,7 @@ class AuthService {
     async signUp() {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(this.password, salt);
-        const user = { firstname: this.firstName, lastName: this.lastName, password: hashedPassword, role: "user", email: this.email, phoneNumber: this.phoneNumber };
+        const user = { firstname: this.firstname, lastname: this.lastname, password: hashedPassword, role: "user", email: this.email, phoneNumber: this.phoneNumber };
 
         await User.create(user);
         return user;

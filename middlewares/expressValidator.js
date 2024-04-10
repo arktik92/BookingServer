@@ -11,8 +11,8 @@ const hasError = (req, res, next) => {
 
 // MARK: - AUTH VALIDATION
 const validateUser = [
-        body('firstName').isEmpty().withMessage('Ne peut pas être vide'),
-        body('lastName').isEmpty().withMessage('Ne peut pas être vide'),
+        body('firstname').isEmpty().withMessage('Ne peut pas être vide'),
+        body('lastname').isEmpty().withMessage('Ne peut pas être vide'),
         body('email').isEmail().withMessage('Doit être une adresse email valide'),
         body('password').isLength({ min: 6 }),
         body('phoneNumber').isEmpty().withMessage('Ne peut pas être vide'),

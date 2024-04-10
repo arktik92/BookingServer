@@ -2,7 +2,8 @@ const AuthService = require('../services/AuthService');
 const validator = require('../middlewares/expressValidator');
 
 const signIn = async (req, res, next) => {
-    const authService = new AuthService(req.body.email, req.body.password);
+    const { email, password } = req.body;
+    const authService = new AuthService(email, password);
     validator.hasError
     try {
         const token = await authService.signIn();
@@ -13,7 +14,8 @@ const signIn = async (req, res, next) => {
 }
 
 const signUp = async (req, res, next) => {
-    const authService = new AuthService(req.body.email, req.body.password, req.body.firstName, req.body.lastName, req.body.phoneNumber);
+    const { email, password, firstname, lastname, phoneNumber } = req.body;
+    const authService = new AuthService(email, password, firstname, lastname, phoneNumber);
     validator.hasError
     try {
         const user = await authService.signUp();
@@ -24,7 +26,8 @@ const signUp = async (req, res, next) => {
 }
 
 const sendEmailForResetPwd = async (req, res) => {
-    const authService = new AuthService(req.body.email);
+    const { email } = req.body;
+    const authService = new AuthService(email);
     validator.hasError
     try {
         await authService.sendEmailForResetPwd();
@@ -35,7 +38,8 @@ const sendEmailForResetPwd = async (req, res) => {
 }
 
 const sendPassword = async (req, res, next) => {
-    const authService = new AuthService(req.body.email, req.body.password);
+    const { email, password } = req.body;
+    const authService = new AuthService(email, password);
     validator.hasError
     try {
         await authService.resetPassword();

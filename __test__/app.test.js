@@ -208,8 +208,8 @@ describe("GET /api/users", () => {
 //     const res = await request(app)
 //       .post("/auth/signup")
 //       .send({
-//         firstName: "estebán",
-//         lastName: "semellier",
+//         firstname: "estebán",
+//         lastname: "semellier",
 //         password: "testarktik",
 //         role: "admin",
 //         email: "esteban@test.fr",

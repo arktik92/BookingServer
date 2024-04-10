@@ -1,6 +1,7 @@
 const { User } = require("../config/db.config.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const user = require("../models/user.js");
 
 class UserService {
     constructor(id, token, userData) {
@@ -37,17 +38,16 @@ class UserService {
     }
 
     async deleteUser() {
-        if (!this.id || typeof this.id !== number || !Number.isInteger(this.id)) {
-            throw new Error("The id should be a number");
-        }
+        const decoded = jwt.verify(this.token, process.env.SECRET_KEY);
+        const userId = decoded.id; 
 
-        const  deletedUser = await User.destroy({ where: {id: this.id}});
+        const  deletedUser = await User.destroy({ where: {id: userId}});
 
         if (deletedUser === 0) {
-            throw new Error(`User with id:${this.id} not found`);
+            throw new Error(`User with id:${userId} not found`);
         }
 
-        return { message: `User with id:${this.id} was deleted` };
+        return { message: `User with id:${userId} was deleted` };
     }
 }
 

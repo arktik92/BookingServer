@@ -28,10 +28,10 @@
                   "role": {
                     "example": "user"
                   },
-                  "firstName": {
+                  "firstname": {
                     "example": "john"
                   },
-                  "lastName": {
+                  "lastname": {
                     "example": "sanchez"
                   },
                   "email": {
@@ -684,10 +684,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "firstName": {
+                  "firstname": {
                     "example": "john"
                   },
-                  "lastName": {
+                  "lastname": {
                     "example": "sanchez"
                   },
                   "email": {
