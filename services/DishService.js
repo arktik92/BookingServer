@@ -1,11 +1,15 @@
 const { Dish } = require("../config/db.config");
 
 class DishService {
+constructor(dishData) {
+    this.dishData = dishData;
+}
+
     async getAllDishes() {
         return await Dish.findAll();
     }
 
-    async createDish(dishData) {
+    async createDish() {
         const { name, description, price, category, quantity } = dishData;
         
         if (!name || typeof name !== "string" || name.trim() === "") {
@@ -28,4 +32,4 @@ class DishService {
     }
 }
 
-module.exports = new DishService();
+module.exports = DishService;

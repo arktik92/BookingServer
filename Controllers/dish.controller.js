@@ -1,6 +1,7 @@
-const dishService = require('../services/DishService');
+const DishService = require('../services/DishService');
 
 const get = async (req, res, next) => {
+    const dishService = new DishService();
     try {
         const dishes = await dishService.getAllDishes();
         res.json({ dishes });
@@ -10,8 +11,9 @@ const get = async (req, res, next) => {
 }
 
 const post = async (req, res, next) => {
+    const dishService = new DishService(req.body);
     try {
-        const dish = await dishService.createDish(req.body);
+        const dish = await dishService.createDish();
         res.status(201).json({ message: "Dish registered", dish });
     } catch (error) {
         if (error.message.startsWith("The dish_")) {

@@ -8,6 +8,7 @@ module.exports = {
       [
         {
           name: "Soleil",
+          roomId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

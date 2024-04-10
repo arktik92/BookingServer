@@ -1,29 +1,5 @@
 const { Sequelize, DataTypes } = require("sequelize");
-
-// MARK: - Configuration DB
-const config = {
-  development: {
-    username: "estebansemellier",
-    password: null,
-    database: "database_development",
-    host: "127.0.0.1",
-    dialect: "postgres",
-  },
-  test: {
-    username: "estebansemellier",
-    password: null,
-    database: "database_test",
-    host: "127.0.0.1",
-    dialect: "postgres",
-  },
-  production: {
-    username: "estebansemellier",
-    password: null,
-    database: "database_production",
-    host: "127.0.0.1",
-    dialect: "postgres",
-  },
-}[process.env.NODE_ENV || "development"];
+const config = require("../config/sequelize.config");
 
 const sequelize = new Sequelize(
   config.database,
@@ -32,20 +8,34 @@ const sequelize = new Sequelize(
   {
     host: config.host,
     dialect: config.dialect,
-    logging: false,
+    logging: console.log,
   },
 );
 
+const User = require("../models/user")(sequelize, DataTypes);
 const Reservation = require("../models/reservation")(sequelize, DataTypes);
 const Room = require("../models/room")(sequelize, DataTypes);
 const Spot = require("../models/spot")(sequelize, DataTypes);
-const User = require("../models/user")(sequelize, DataTypes);
 const Dish = require("../models/dish")(sequelize, DataTypes);
+const Membership = require("../models/membership")(sequelize, DataTypes);
+
+const models = {
+  User,
+  Reservation,
+  Spot,
+  Room,
+  Dish,
+  Membership
+};
+
+Object.keys(models).forEach(modelName => {
+  if (models[modelName].associate) {
+    models[modelName].associate(models);
+  }
+});
 
 module.exports = {
-  Reservation,
-  Room,
-  Spot,
-  User,
-  Dish
+  Sequelize, 
+  sequelize,
+  ...models
 };

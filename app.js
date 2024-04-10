@@ -60,7 +60,7 @@ app.use((req, res, next) => {
 });
 app.use(
   session({
-    secret: process.env.SECRET_KEY, // Secret pour signer la session
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
   }),
@@ -68,8 +68,6 @@ app.use(
 app.set('view engine', 'ejs');
 
 app.use("/auth", authRouter);
-
-// MARK: - Route principale
 app.use("/api", authenticate.verifyJWT, indexRouter);
 
 module.exports = app;
