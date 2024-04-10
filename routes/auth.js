@@ -4,9 +4,9 @@ const validator = require("../middlewares/expressValidator");
 const authController = require('../Controllers/auth.controller');
 
 
-router.post("/signup", validator.validateSignUp, authController.signUp);
+router.post("/signup", validator.validateUser, authController.signUp);
 
-router.post("/signin", validator.validateSignUp, authController.signIn);
+router.post("/signin", validator.ValidateSignIn, authController.signIn);
 
 router.get("/resetpassword", validator.validateEmail, authController.resetPassword);
 

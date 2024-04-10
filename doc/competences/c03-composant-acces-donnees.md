@@ -21,7 +21,7 @@
 | Création des dossiers et fichiers Routes (User, Room, Spot...)  | ⏳       | ./routes      |
 | Création des dossiers et fichiers Modèles (User, Room, Spot...) | ⏳       | ./models      |
 | Mise en place des contrôleurs (User, Room, Spot...)             | ⏳       | ./controllers |
-| 🔜 Implémenter les services                                    | ❌      |               |
+| 🔜 Implémenter les services                                    | V     |               |
 
 ## Sécurité
 

@@ -1,10 +1,23 @@
-const { body } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 
-const validateSignUp = [
+const hasError = (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    } else {
+        next();
+    }
+}
+
+// MARK: - AUTH VALIDATION
+const validateUser = [
+        body('firstName').isEmpty().withMessage('Ne peut pas être vide'),
+        body('lastName').isEmpty().withMessage('Ne peut pas être vide'),
         body('email').isEmail().withMessage('Doit être une adresse email valide'),
         body('password').isLength({ min: 6 }),
-        body('role').isIn('user')
-    ]
+        body('phoneNumber').isEmpty().withMessage('Ne peut pas être vide'),
+        body('phoneNumber').isLength({ min: 10, max: 10 }).withMessage('Doit être un numéro de téléphone valide')
+]
 
 const ValidateSignIn = [
     body('email').isEmail().withMessage('Doit être une adresse email valide'),
@@ -15,8 +28,28 @@ const validateEmail = [
     body('email').isEmail().withMessage('Doit être une adresse email valide')
 ]
 
+// MARK: - SPOT VALIDATION
+const validateSpot = [
+    body('name').isEmpty().withMessage('Ne peut pas être vide')
+]
+
+// MARK: - ROOM VALIDATION
+const validateRoom = [
+    body('name').isEmpty().withMessage('Ne peut pas être vide')
+]
+
+// MARK: - RESERVATION VALIDATION
+const validateReservation = [
+    body('date').isEmpty().withMessage('Ne peut pas être vide'),
+    body('spotId').isEmpty().withMessage('Ne peut pas être vide'),
+    body('roomId').isEmpty().withMessage('Ne peut pas être vide')
+]
+
 module.exports = {
-    validateSignUp,
+    validateUser,
     ValidateSignIn,
-    validateEmail
+    validateEmail,
+    validateSpot,
+    validateRoom,
+    hasError
 }

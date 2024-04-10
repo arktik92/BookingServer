@@ -1,12 +1,10 @@
-const adminService = require("../services/AdminService");
+const AdminService = require("../services/AdminService");
 
 // MARK: - Edit role for Admin
 const editRole = async (req, res, next) => {
+    const adminService = new AdminService(req.params.id, req.body.role);
     try {
-        const { id } = req.params;
-        const { role } = req.body;
-
-        await userService.editUserRole(id, role);
+        await adminService.editUserRole();
 
         res.status(201).json({ message: "User updated successfully" });
     } catch (error) {

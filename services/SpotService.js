@@ -1,42 +1,47 @@
 const { Spot } = require("../config/db.config.js");
 
 class SpotService {
+    constructor(spotData) {
+        this.spotData = spotData;
+    }
+
     async getAllSpots() {
         return await Spot.findAll();
     }
 
-    async createSpot(spotData) {
-        if (!spotData.name || typeof spotData.name !== "string" || spotData.name.trim() === "") {
+    async createSpot() {
+        // TODO: - La validation peut être améliorée ou externalisée
+        if (!this.spotData.name || typeof this.spotData.name !== "string" || this.spotData.name.trim() === "") {
             throw new Error("The spot_name should be a non-empty string");
         }
-        return await Spot.create({ name: spotData.name });
+        return await Spot.create({ ...this.spotData });
     }
 
-    async updateSpot(id, spotData) {
-        let spot = await Spot.findByPk(id);
+    async updateSpot() {
+        let spot = await Spot.findByPk(this.id);
         if (!spot) {
-            throw new Error(`Spot with id:${id} not found`);
+            throw new Error(`Spot with id:${this.id} not found`);
         }
-        spot.name = spotData.name;
+        spot.name = this.spotData.name;
         await spot.save();
         return spot;
     }
 
-    async deleteSpot(id) {
-        if (!id || typeof id !== "number" || !Number.isInteger(id)) {
+    async deleteSpot() {
+        if (!this.id || typeof this.id !== "number" || !Number.isInteger(this.id)) {
             throw new Error("Invalid spot_id. It should be a whole number");
         }
 
         const deletedSpot = await Spot.destroy({
-            where: { id: id },
+            where: { id: this.id },
         });
 
         if (deletedSpot === 0) {
-            throw new Error(`Spot with id:${id} not found`);
+            throw new Error(`Spot with id:${this.id} not found`);
         }
 
-        return { message: `Spot with id:${id} was deleted` };
+        return { message: `Spot with id:${this.id} was deleted` };
     }
 }
 
-module.exports = new SpotService();
+module.exports = SpotService;

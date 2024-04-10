@@ -6,14 +6,13 @@ module.exports = {
     await queryInterface.bulkInsert(
       "Reservations",
       [
-        {
+        { 
+          numberOfCustomer: 4,
           date: "2023-09-26T09:12:18.345Z",
           name: "stephanie",
           note: "sunshine",
           status: 1,
-          userId: 8,
-          spotId: 1,
-          roomId: 1,
+          userId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
