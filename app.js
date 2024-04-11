@@ -1,21 +1,46 @@
+// MARK: - Import Libraries
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
-const jwt = require("jsonwebtoken");
 const session = require("express-session");
-require("dotenv").config();
+const swaggerUi = require('swagger-ui-express');
+const swaggerJSDoc = require('swagger-jsdoc');
+const cors = require('cors');
+const basicAuth = require('express-basic-auth');
 
 var app = express();
+
+// MARK: - Import Middlewares
+const swaggerDefinition = require('./middlewares/swaggerDef');
+const authenticate = require('./middlewares/authenticate');
+const morganMiddleware = require('./middlewares/morgan');
+
+// ImportRoutes
 const authRouter = require("./routes/auth");
 var indexRouter = require("./routes/index");
 
+// MARK: - JSON
+const swaggerDocument = require('./swagger-output.json');
 
-// MARK: - Middlewares
+// MARK: - Config
+require("dotenv").config();
+
+// MARK: - CORS
+corsOptions = {
+  origin: "*",
+  optionsSuccessStatus: 200
+};
+
 app.use(express.static(path.join(__dirname, 'public')));
-
-
-app.use(logger("dev"));
+app.use(morganMiddleware.successLog);
+app.use(morganMiddleware.errorLog);
+app.use(logger('dev'));
+app.use(cors(corsOptions));
+app.use('/api-docs',basicAuth({
+  users: {'arktik': 'swagger'},
+  challenge: true,
+}), swaggerUi.serve, swaggerUi.setup(swaggerDocument/*, swaggerSpec*/));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -26,34 +51,14 @@ app.use((req, res, next) => {
 });
 app.use(
   session({
-    secret: process.env.SECRET_KEY, // Secret pour signer la session
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: true,
   }),
 );
 app.set('view engine', 'ejs');
 
-const verifyJWT = (req, res, next) => {
-  const SECRET_KEY = process.env.SECRET_KEY; // A remplacer par la même clé secrète que dans la route signin
-  const token = req.header("Authorization");
-
-
-  if (!token)
-    return res.status(401).json({ auth: false, message: "No token provided." });
-
-  try {
-    const decoded = jwt.verify(token, SECRET_KEY);
-    console.log(decoded);
-    req.user = decoded;
-    next(); // Si le token est valide, on passe à la suite
-  } catch (e) {
-    res.status(400).json({ auth: false, message: "Invalid token." });
-  }
-};
-
 app.use("/auth", authRouter);
-
-// MARK: - Route principale
-app.use("/api", verifyJWT, indexRouter);
+app.use("/api", authenticate.verifyJWT, indexRouter);
 
 module.exports = app;

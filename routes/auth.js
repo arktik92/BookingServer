@@ -1,19 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const path = require('path');
+const validator = require("../middlewares/expressValidator");
 const authController = require('../Controllers/auth.controller');
 
-router.post("/signup", authController.signUp);
 
-router.post("/signin", authController.signIn);
+router.post("/signup", validator.validateUser, authController.signUp);
 
-router.get("/resetpassword", (req, res) => {
-    const email = req.query.email;
-    res.render('resetPassword', { email: email });
-});
+router.post("/signin", validator.ValidateSignIn, authController.signIn);
 
-router.post("/sendemail", authController.sendEmailForResetPwd);
+router.get("/resetpassword", validator.validateEmail, authController.resetPassword);
 
-router.put("/sendpassword", authController.resetPassword);
+router.post("/sendemail", validator.validateEmail, authController.sendEmailForResetPwd);
+
+router.put("/sendpassword", validator.ValidateSignIn, authController.sendPassword);
 
 module.exports = router;

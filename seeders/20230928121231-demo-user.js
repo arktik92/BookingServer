@@ -11,8 +11,8 @@ module.exports = {
       [
         {
           role: "admin",
-          firstName: "stephanie",
-          lastName: "de monaco",
+          firstname: "stephanie",
+          lastname: "de monaco",
           email: "stephdemonaco@princesse.com",
           phoneNumber: "0606060606",
           password: await bcrypt.hash("imAprincess", salt),
@@ -21,8 +21,8 @@ module.exports = {
         },
         {
           role: "user",
-          firstName: "stephane",
-          lastName: "de monaco",
+          firstname: "stephane",
+          lastname: "de monaco",
           email: "stephdemonaco@prince.com",
           phoneNumber: "0606060601",
           password: await bcrypt.hash("imTheBoss", salt),

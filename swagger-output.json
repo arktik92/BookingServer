@@ -1,0 +1,908 @@
+  {
+    "swagger": "2.0",
+    "info": {
+      "title": "Booking Server API",
+      "description": "Description",
+      "version": "1.0.0"
+    },
+    "host": "127.0.0.1:8080",
+    "basePath": "/",
+    "schemes": [
+      "http"
+    ],
+    "paths": {
+      "/auth/signup": {
+        "post": {
+          "tags": ["Auth"],
+          "description": "register a new user",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "example": "Test!1234"
+                  },
+                  "role": {
+                    "example": "user"
+                  },
+                  "firstname": {
+                    "example": "john"
+                  },
+                  "lastname": {
+                    "example": "sanchez"
+                  },
+                  "email": {
+                    "example": "john.sanchez@test.com"
+                  },
+                  "phoneNumber": {
+                    "example": "0102030405"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/auth/signin": {
+        "post": {
+          "tags": ["Auth"],
+          "description": "Login a user",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "example": "john.sanchez@test.com"
+                  },
+                  "password": {
+                    "example": "Test!1234"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            }
+          }
+        }
+      },
+      "/auth/resetpassword": {
+        "get": {
+          "tags": ["Auth"],
+          "description": "Reset password HTML page (Email verification)",
+          "parameters": [
+            { 
+              "name": "email",
+              "in": "query",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "default": {
+              "description": ""
+            }
+          }
+        }
+      },
+      "/auth/sendemail": {
+        "post": {
+          "tags": ["Auth"],
+          "description": "Send an email to reset password",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "example": "john.sanchez@test.com"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          }
+        }
+      },
+      "/auth/sendpassword": {
+        "put": {
+          "tags": ["Auth"],
+          "description": "Submit a new password after email verication",
+          "parameters": [
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "example": "john.sanchez@test.com"
+                  },
+                  "password": {
+                    "example": "Test!2345"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "500": {
+              "description": "Internal Server Error"
+            }
+          }
+        }
+      },
+      "/api/reservations/": {
+        "get": {
+          "tags": ["Reservation"],
+          "description": "get all reservations",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "post": {
+          "tags": ["Reservation"],
+          "description": "post a reservation",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "example": "2024-06-26T09:12:18.345Z"
+                  },
+                  "name": {
+                    "example": "sanchez"
+                  },
+                  "note": {
+                    "example": "comme d'habitude"
+                  },
+                  "status": {
+                    "example": "1"
+                  },
+                  "spotId": {
+                    "example": "99"
+                  },
+                  "roomId": {
+                    "example": "99"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "422": {
+              "description": "Unprocessable Entity"
+            }
+          }
+        }
+      },
+      "/api/reservations/userreservations": {
+        "get": {
+          "tags": ["Reservation"],
+          "description": "get user reservations",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/api/reservations/{id}": {
+        "tags": ["Reservation"],
+        "put": {
+          "tags": ["Reservation"],
+          "description": "update a reservation",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "example": "2024-06-26T09:12:18.345Z"
+                  },
+                  "name": {
+                    "example": "sanchez"
+                  },
+                  "note": {
+                    "example": "comme d'habitude"
+                  },
+                  "status": {
+                    "example": "1"
+                  },
+                  "spotId": {
+                    "example": "99"
+                  },
+                  "roomId": {
+                    "example": "99"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Reservation"],
+          "description": "delete a reservation",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "422": {
+              "description": "Unprocessable Entity"
+            }
+          }
+        }
+      },
+      "/api/rooms/": {
+        "tags": ["Room"],
+        "get": {
+          "tags": ["Room"],
+          "description": "get all rooms",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "post": {
+          "tags": ["Room"],
+          "description": "post a room",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "terrasse"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "422": {
+              "description": "Unprocessable Entity"
+            }
+          }
+        }
+      },
+      "/api/rooms/{id}": {
+        "put": {
+          "tags": ["Room"],
+          "description": "update a room",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "terrasse"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Room"],
+          "description": "delete a room",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "422": {
+              "description": "Unprocessable Entity"
+            }
+          }
+        }
+      },
+      "/api/spots/": {
+        "get": {
+          "tags": ["Spot"],
+          "description": "get all spots",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "post": {
+          "tags": ["Spot"],
+          "description": "post a spot",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "au soleil"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "422": {
+              "description": "Unprocessable Entity"
+            }
+          }
+        }
+      },
+      "/api/spots/{id}": {
+        "put": {
+          "tags": ["Spot"],
+          "description": "update a spot",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "au soleil"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Spot"],
+          "description": "delete a spot",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },{
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "422": {
+              "description": "Unprocessable Entity"
+            }
+          }
+        }
+      },
+      "/api/users/": {
+        "get": {
+          "tags": ["User"],
+          "description": "get all users",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "put": {
+          "tags": ["User"],
+          "description": "update a user",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "firstname": {
+                    "example": "john"
+                  },
+                  "lastname": {
+                    "example": "sanchez"
+                  },
+                  "email": {
+                    "example": "john.sanchez@test.com"
+                  },
+                  "phoneNumber": {
+                    "example": "0102030405"
+                  },
+                  "password": {
+                    "example": "Test!1234"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        },
+        "delete": {
+          "tags": ["User"],
+          "description": "delete a user",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "example": "99"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Not Found"
+            },
+            "422": {
+              "description": "Unprocessable Entity"
+            }
+          }
+        }
+      },
+      "/api/users/me": {
+        "get": {
+          "tags": ["User"],
+          "description": "get current user",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        }
+      },
+      "/api/dish/": {
+        "get": {
+          "tags": ["Dish"],
+          "description": "get all dishes",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+          }
+        },
+        "post": {
+          "tags": ["Dish"],
+          "description": "post a dish",
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "example": "raclette"
+                  },
+                  "description": {
+                    "example": "plat leger a base de fromage"
+                  },
+                  "price": {
+                    "example": "12.99"
+                  },
+                  "category": {
+                    "example": "savoyard"
+                  },
+                  "quantity": {
+                    "example": "2"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "422": {
+              "description": "Unprocessable Entity"
+            }
+          }
+        }
+      },
+      "/api/admin/editrole/{id}": {
+        "put": {
+          "tags": ["Admin"],
+          "description": "update roles (only admin)",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "type": "string"
+            },
+            {
+              "name": "Authorization",
+              "in": "header",
+              "type": "string"
+            },
+            {
+              "name": "body",
+              "in": "body",
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "example": "mod"
+                  }
+                }
+              }
+            }
+          ],
+          "responses": {
+            "201": {
+              "description": "Created"
+            },
+            "400": {
+              "description": "Bad Request"
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "403": {
+              "description": "Forbidden"
+            },
+            "404": {
+              "description": "Not Found"
+            }
+          }
+        }
+      }
+    }
+  }

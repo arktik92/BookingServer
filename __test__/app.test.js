@@ -1,6 +1,5 @@
 const request = require("supertest");
 const app = require("../app");
-const supertest = require("supertest");
 
 const token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MDUzMTc0NjAsImV4cCI6MTcwNTMyMTA2MH0.NpNk1VfRrDXDytPZsOPiPsT-pAQOrverRly4wUF-JSU";
@@ -209,8 +208,8 @@ describe("GET /api/users", () => {
 //     const res = await request(app)
 //       .post("/auth/signup")
 //       .send({
-//         firstName: "estebán",
-//         lastName: "semellier",
+//         firstname: "estebán",
+//         lastname: "semellier",
 //         password: "testarktik",
 //         role: "admin",
 //         email: "esteban@test.fr",

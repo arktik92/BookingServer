@@ -2,16 +2,16 @@ const express = require("express");
 const router = express.Router();
 
 const userController = require('../Controllers/user.controller')
-
+const isAdmin = require("../middlewares/authenticate");
 
 
 /* GET */
-router.get("/", userController.get);
+router.get("/", isAdmin.checkAdminRole, userController.get);
 
-router.get("/me", userController.getCurrentUser);
+router.get("/currentuser", userController.getCurrentUser);
 
 /* PUT */
-router.put("/:id", userController.put);
+router.put("/", userController.put);
 
 /* DELETE */
 router.delete("/", userController.destroy);
