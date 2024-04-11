@@ -7,6 +7,7 @@ const session = require("express-session");
 const swaggerUi = require('swagger-ui-express');
 const swaggerJSDoc = require('swagger-jsdoc');
 const cors = require('cors');
+const basicAuth = require('express-basic-auth');
 
 var app = express();
 
@@ -31,25 +32,15 @@ corsOptions = {
   optionsSuccessStatus: 200
 };
 
-
-// // MARK: - Middlewares
-// // Options pour swaggerJSDoc
-// const SwaggerOptions = {
-//   swaggerDefinition,
-//   apis: ['./routes/*.js'],
-//   explorer: true,
-// };
-
-// const swaggerSpec = swaggerJSDoc(SwaggerOptions);
-// MARK: - MORGAN
-
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(morganMiddleware.successLog);
 app.use(morganMiddleware.errorLog);
 app.use(logger('dev'));
 app.use(cors(corsOptions));
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument/*, swaggerSpec*/));
+app.use('/api-docs',basicAuth({
+  users: {'arktik': 'swagger'},
+  challenge: true,
+}), swaggerUi.serve, swaggerUi.setup(swaggerDocument/*, swaggerSpec*/));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
