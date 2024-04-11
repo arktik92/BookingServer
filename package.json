@@ -5,7 +5,10 @@
   "scripts": {
     "start": "node --watch ./bin/www",
     "test": "jest --coverage --detectOpenHandles",
-    "swagger": "node ./swagger.js"
+    "swagger": "node ./swagger.js",
+    "update-skills": "cd /Users/estebansemellier/Documents/Dev/Simplon/Alex/simplon-node.js-08-2023 && git pull && cd /Users/estebansemellier/Documents/Dev/Simplon/booking_server && cp -r /Users/estebansemellier/Documents/Dev/Simplon/Alex/simplon-node.js-08-2023/docs/Compétences/etudiants/Se.Esteban/ doc/Alex/"
+    
+    
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
