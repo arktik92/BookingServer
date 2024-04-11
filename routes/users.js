@@ -8,7 +8,7 @@ const isAdmin = require("../middlewares/authenticate");
 /* GET */
 router.get("/", isAdmin.checkAdminRole, userController.get);
 
-router.get("/me", userController.getCurrentUser);
+router.get("/currentuser", userController.getCurrentUser);
 
 /* PUT */
 router.put("/", userController.put);

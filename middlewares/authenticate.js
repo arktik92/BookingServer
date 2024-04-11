@@ -31,4 +31,9 @@ const verifyJWT = (req, res, next) => {
     }
 };
 
-module.exports = { checkAdminRole, verifyJWT }
+const decodeToken = (token) => {
+    if (!token) throw new Error("Accès refusé, aucun token fourni");
+    return jwt.verify(token, process.env.SECRET_KEY).id;
+};
+
+module.exports = { checkAdminRole, verifyJWT, decodeToken}

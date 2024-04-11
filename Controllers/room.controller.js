@@ -12,17 +12,20 @@ const get = async (req, res, next) => {
 }
 
 const post = async (req, res, next) => {
-  const roomService = new RoomService(req.body);
+  const { room } = req.body;
+  const roomService = new RoomService(room);
     try {
-      const room = await roomService.createRoom();
-      res.status(201).json({ message: "Room registered", room });
+      const roomData = await roomService.createRoom();
+      res.status(201).json({ message: "Room registered", roomData });
     } catch (error) {
       next(error);
     }
 }
 
 const put = async (req, res, next) => {
-  const roomService = new RoomService(req.params.id, req.body);
+  const id = req.params.id;
+  const roomData = req.body;
+  const roomService = new RoomService(id, roomData);
     try {
       const updatedRoom = await roomService.updateRoom();
       res.status(201).json({ message: "Room updated successfully", updatedRoom });
@@ -32,10 +35,11 @@ const put = async (req, res, next) => {
 }
 
 const destroy = async (req, res, next) => {
-  const roomService = new RoomService(req.params.id);
+  const id = req.params.id;
+  const roomService = new RoomService(id);
     try {
-      const result = await roomService.deleteRoom();
-      res.json(result);
+      const room = await roomService.deleteRoom();
+      res.json(room);
     } catch (error) {
       next(error);
     }

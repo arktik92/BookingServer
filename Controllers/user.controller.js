@@ -1,4 +1,5 @@
 const UserService = require('../services/UserService')
+const { decodeToken } = require('../middlewares/authenticate');
 
 // MARK: - Get all users if user has the right token
 const get = async (req, res, next) => {
@@ -13,8 +14,8 @@ const get = async (req, res, next) => {
 
   // MARK: - Get current user if user has the right token
 const getCurrentUser =  async (req, res, next) => {
-  const id = req.session.userId;
-  const userService = new UserService(id)
+  const userId = decodeToken(req.headers.authorization);
+  const userService = new UserService(userId)
     const user = await userService.getCurrentUser();
     res.json(user);
   }
@@ -22,7 +23,9 @@ const getCurrentUser =  async (req, res, next) => {
   // MARK: - Put a user if user has the right token
 const put = async (req, res, next) => {
   const token = req.headers.authorization;
-  const userService = new UserService(token, req.body)
+  const userData = req.body;
+  const userService = new UserService(null, token, userData)
+  
     try {
       if (!token) {
         return res.status(401).send("Accès refusé, aucun token fourni");
@@ -36,8 +39,8 @@ const put = async (req, res, next) => {
 
   // MARK: - Delete a user if user has the right token
 const destroy = async (req, res, next) => {
-  const { id } = req.body;
-  const userService = new UserService(id)
+  const token = req.headers.authorization;
+  const userService = new UserService(null, token, null)
     try {
       const result = await userService.deleteUser();
       res.status(201).json({ message: "User deleted", user: result });
@@ -46,8 +49,6 @@ const destroy = async (req, res, next) => {
     }
   }
 
-  
-  
 module.exports = {
     get,
     put,

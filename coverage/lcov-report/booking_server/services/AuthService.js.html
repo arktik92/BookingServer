@@ -247,14 +247,14 @@ class AuthService {
 <span class="cstat-no" title="statement not covered" >        return { token };</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    as</span>ync signUp({ firstName, lastName, email, phoneNumber, password }) {
+<span class="fstat-no" title="function not covered" >    as</span>ync signUp({ firstname, lastname, email, phoneNumber, password }) {
 <span class="cstat-no" title="statement not covered" >        if (!this.emailValidator(email)) {</span>
 <span class="cstat-no" title="statement not covered" >        throw new Error("Email input is not in a valid email format.");</span>
         }
 &nbsp;
         const salt = <span class="cstat-no" title="statement not covered" >await bcrypt.genSalt(10);</span>
         const hashedPassword = <span class="cstat-no" title="statement not covered" >await bcrypt.hash(password, salt);</span>
-        const user = <span class="cstat-no" title="statement not covered" >{ firstName, lastName, password: hashedPassword, role: "user", email, phoneNumber };</span>
+        const user = <span class="cstat-no" title="statement not covered" >{ firstname, lastname, password: hashedPassword, role: "user", email, phoneNumber };</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        await User.create(user);</span>
 <span class="cstat-no" title="statement not covered" >        return user;</span>
