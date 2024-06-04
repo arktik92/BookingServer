@@ -2,7 +2,6 @@ const RoomService = require('../services/RoomService')
 
 const get = async (req, res, next) => {
   const roomService = new RoomService();
-  console.log(roomService)
     try {
       const rooms = await roomService.getAllRooms();
       res.json({ rooms });

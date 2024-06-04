@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.18% </span>
+                <span class="strong">34.61% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/22</span>
+                <span class='fraction'>9/26</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/9</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
-                <span class="quiet">Functions</span>
                 <span class='fraction'>0/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">18.18% </span>
+                <span class="strong">40% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>2/5</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">34.61% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/22</span>
+                <span class='fraction'>9/26</span>
             </div>
         
             
@@ -110,9 +110,26 @@
 <a name='L45'></a><a href='#L45'>45</a>
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
-<a name='L48'></a><a href='#L48'>48</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a>
+<a name='L54'></a><a href='#L54'>54</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -121,10 +138,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -145,7 +158,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -160,18 +172,25 @@
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">const { User } = require("../config/db.config.js");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const user = require("../models/user.js");
 &nbsp;
 class UserService {
-<span class="fstat-no" title="function not covered" >    as</span>ync getAllUsers() {
-<span class="cstat-no" title="statement not covered" >        return await User.findAll();</span>
+    constructor(id, token, userData) {
+        this.id = id
+        this.token = token
+        this.userData = userData
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    as</span>ync getCurrentUser(id) {
-<span class="cstat-no" title="statement not covered" >        return await User.findByPk(id);</span>
+    async getAllUsers() {
+        return await User.findAll();
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    as</span>ync updateUser(token, userData) {
-        const decoded = <span class="cstat-no" title="statement not covered" >jwt.verify(token, process.env.SECRET_KEY);</span>
+<span class="fstat-no" title="function not covered" >    as</span>ync getCurrentUser() {
+<span class="cstat-no" title="statement not covered" >        return await User.findByPk(this.id);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    as</span>ync updateUser() {
+        const decoded = <span class="cstat-no" title="statement not covered" >jwt.verify(this.token, process.env.SECRET_KEY);</span>
         const userId = <span class="cstat-no" title="statement not covered" >decoded.id; </span>
         const user = <span class="cstat-no" title="statement not covered" >await User.findOne({ where: {id: userId}});</span>
 &nbsp;
@@ -180,38 +199,37 @@ class UserService {
         }
 &nbsp;
         const salt = <span class="cstat-no" title="statement not covered" >await bcrypt.genSalt(10);</span>
-        const hashedPassword = <span class="cstat-no" title="statement not covered" >await bcrypt.hash(userData.password, salt);</span>
+        const hashedPassword = <span class="cstat-no" title="statement not covered" >await bcrypt.hash(this.userData.password, salt);</span>
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        Object.assign(user, userData, {password: hashedPassword});</span>
+<span class="cstat-no" title="statement not covered" >        Object.assign(user, this.userData, {password: hashedPassword});</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        await user.save();</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        return user;</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    as</span>ync deleteUser(id) {
-<span class="cstat-no" title="statement not covered" >        if (!id || typeof id !== number || !Number.isInteger(id)) {</span>
-<span class="cstat-no" title="statement not covered" >            throw new Error("The id should be a number");</span>
-        }
+<span class="fstat-no" title="function not covered" >    as</span>ync deleteUser() {
+        const decoded = <span class="cstat-no" title="statement not covered" >jwt.verify(this.token, process.env.SECRET_KEY);</span>
+        const userId = <span class="cstat-no" title="statement not covered" >decoded.id; </span>
 &nbsp;
-        const  deletedUser = <span class="cstat-no" title="statement not covered" >await User.destroy({ where: {id: id}});</span>
+        const  deletedUser = <span class="cstat-no" title="statement not covered" >await User.destroy({ where: {id: userId}});</span>
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (deletedUser === 0) {</span>
-<span class="cstat-no" title="statement not covered" >            throw new Error(`User with id:${id} not found`);</span>
+<span class="cstat-no" title="statement not covered" >            throw new Error(`User with id:${userId} not found`);</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return { message: `User with id:${id} was deleted` };</span>
+<span class="cstat-no" title="statement not covered" >        return { message: `User with id:${userId} was deleted` };</span>
     }
 }
 &nbsp;
-module.exports = new UserService();</pre></td></tr></table></pre>
+module.exports = UserService;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-03-15T11:13:52.737Z
+                at 2024-04-15T11:56:05.906Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

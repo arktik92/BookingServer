@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">10.52% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/18</span>
+                <span class='fraction'>2/19</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">11.11% </span>
+                <span class="strong">10.52% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/18</span>
+                <span class='fraction'>2/19</span>
             </div>
         
             
@@ -105,11 +105,31 @@
 <a name='L40'></a><a href='#L40'>40</a>
 <a name='L41'></a><a href='#L41'>41</a>
 <a name='L42'></a><a href='#L42'>42</a>
-<a name='L43'></a><a href='#L43'>43</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L43'></a><a href='#L43'>43</a>
+<a name='L44'></a><a href='#L44'>44</a>
+<a name='L45'></a><a href='#L45'>45</a>
+<a name='L46'></a><a href='#L46'>46</a>
+<a name='L47'></a><a href='#L47'>47</a>
+<a name='L48'></a><a href='#L48'>48</a>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a>
+<a name='L51'></a><a href='#L51'>51</a>
+<a name='L52'></a><a href='#L52'>52</a>
+<a name='L53'></a><a href='#L53'>53</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -147,48 +167,58 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { Spot } = require("../config/db.config.js");
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { Spot, Room } = require("../config/db.config.js");
 &nbsp;
 class SpotService {
-<span class="fstat-no" title="function not covered" >    as</span>ync getAllSpots() {
-<span class="cstat-no" title="statement not covered" >        return await Spot.findAll();</span>
+<span class="fstat-no" title="function not covered" >    co</span>nstructor(spotData) {
+<span class="cstat-no" title="statement not covered" >        this.spotData = spotData;</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    as</span>ync createSpot(spotData) {
-<span class="cstat-no" title="statement not covered" >        if (!spotData.name || typeof spotData.name !== "string" || spotData.name.trim() === "") {</span>
+<span class="fstat-no" title="function not covered" >    as</span>ync getAllSpots() {
+<span class="cstat-no" title="statement not covered" >        return await Spot.findAll({</span>
+            include: [{
+                model: Room,
+                as: 'room', // Assurez-vous que cela correspond à l'alias défini dans l'association
+            }],
+        });
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    as</span>ync createSpot() {
+        // TODO: - La validation peut être améliorée ou externalisée
+<span class="cstat-no" title="statement not covered" >        if (!this.spotData.name || typeof this.spotData.name !== "string" || this.spotData.name.trim() === "") {</span>
 <span class="cstat-no" title="statement not covered" >            throw new Error("The spot_name should be a non-empty string");</span>
         }
-<span class="cstat-no" title="statement not covered" >        return await Spot.create({ name: spotData.name });</span>
+<span class="cstat-no" title="statement not covered" >        return await Spot.create({ ...this.spotData });</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    as</span>ync updateSpot(id, spotData) {
-        let spot = <span class="cstat-no" title="statement not covered" >await Spot.findByPk(id);</span>
+<span class="fstat-no" title="function not covered" >    as</span>ync updateSpot() {
+        let spot = <span class="cstat-no" title="statement not covered" >await Spot.findByPk(this.id);</span>
 <span class="cstat-no" title="statement not covered" >        if (!spot) {</span>
-<span class="cstat-no" title="statement not covered" >            throw new Error(`Spot with id:${id} not found`);</span>
+<span class="cstat-no" title="statement not covered" >            throw new Error(`Spot with id:${this.id} not found`);</span>
         }
-<span class="cstat-no" title="statement not covered" >        spot.name = spotData.name;</span>
+<span class="cstat-no" title="statement not covered" >        spot.name = this.spotData.name;</span>
 <span class="cstat-no" title="statement not covered" >        await spot.save();</span>
 <span class="cstat-no" title="statement not covered" >        return spot;</span>
     }
 &nbsp;
-<span class="fstat-no" title="function not covered" >    as</span>ync deleteSpot(id) {
-<span class="cstat-no" title="statement not covered" >        if (!id || typeof id !== "number" || !Number.isInteger(id)) {</span>
+<span class="fstat-no" title="function not covered" >    as</span>ync deleteSpot() {
+<span class="cstat-no" title="statement not covered" >        if (!this.id || typeof this.id !== "number" || !Number.isInteger(this.id)) {</span>
 <span class="cstat-no" title="statement not covered" >            throw new Error("Invalid spot_id. It should be a whole number");</span>
         }
 &nbsp;
         const deletedSpot = <span class="cstat-no" title="statement not covered" >await Spot.destroy({</span>
-            where: { id: id },
+            where: { id: this.id },
         });
 &nbsp;
 <span class="cstat-no" title="statement not covered" >        if (deletedSpot === 0) {</span>
-<span class="cstat-no" title="statement not covered" >            throw new Error(`Spot with id:${id} not found`);</span>
+<span class="cstat-no" title="statement not covered" >            throw new Error(`Spot with id:${this.id} not found`);</span>
         }
 &nbsp;
-<span class="cstat-no" title="statement not covered" >        return { message: `Spot with id:${id} was deleted` };</span>
+<span class="cstat-no" title="statement not covered" >        return { message: `Spot with id:${this.id} was deleted` };</span>
     }
 }
 &nbsp;
-module.exports = new SpotService();
+module.exports = SpotService;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -196,7 +226,7 @@ module.exports = new SpotService();
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-03-15T11:13:52.737Z
+                at 2024-04-15T11:56:05.906Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

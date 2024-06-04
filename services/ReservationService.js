@@ -1,4 +1,4 @@
-const { Reservation, Spot, sequelize } = require("../config/db.config.js");
+const { Reservation, Spot, User, sequelize } = require("../config/db.config.js");
 
 
 class ReservationService {
@@ -7,7 +7,22 @@ class ReservationService {
         this.reservationData = reservationData;
     }
     async getAllReservations() {
-        return await Reservation.findAll();
+        return await Reservation.findAll({
+            include: [{
+                model: Spot,
+                as: 'spots',
+                through: {
+                    attributes: [],
+                },
+            },{
+                model: User,
+                as: 'user',
+                attributes: {
+                    exclude: ['password'],
+                }
+            }
+        ],
+        });
     }
 
     async getUserReservations() {
@@ -26,6 +41,8 @@ class ReservationService {
 
     async createReservation(spotData) {
         const transaction = await sequelize.transaction();
+        console.log("--------->>", this.reservationData);
+        console.log("--------->>", this.spotData);
         try {
             const reservation = await Reservation.create({
                 ...this.reservationData,
