@@ -25,7 +25,9 @@ const getUserReservations = async (req, res, next) => {
 
 const post = async (req, res, next) => {
   const userId = decodeToken(req.headers.authorization);
-  const { spot, reservation } = req.body;
+  const { reservation, spot } = req.body;
+
+  console.log('userId', spot);
   
   try {
     const reservationService = new ReservationService(userId, reservation);
@@ -48,9 +50,10 @@ const put = async (req, res, next) => {
     try { 
       const updatedReservation = await reservationService.updateReservation(reservationId, spotdata);
       res.status(201).json({ message: "Reservation updated successfully", updatedReservation });
-    } catch (error) {
-      next(error);
-    }
+    }catch (error) {
+      res.status(403).json({ error: 'Unauthorized' });
+      next();
+  }
 };
 
 const destroy = async (req, res, next) => {
@@ -62,7 +65,8 @@ const destroy = async (req, res, next) => {
       const result = await reservationService.deleteReservation(reservationId);
       res.json(result);
     } catch (error) {
-      next(error);
+      res.status(403).json({ error: 'Unauthorized' });
+      next();
     }
 };
 

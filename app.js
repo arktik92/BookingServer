@@ -5,14 +5,12 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const session = require("express-session");
 const swaggerUi = require('swagger-ui-express');
-const swaggerJSDoc = require('swagger-jsdoc');
 const cors = require('cors');
 const basicAuth = require('express-basic-auth');
 
 var app = express();
 
 // MARK: - Import Middlewares
-const swaggerDefinition = require('./middlewares/swaggerDef');
 const authenticate = require('./middlewares/authenticate');
 const morganMiddleware = require('./middlewares/morgan');
 
@@ -24,10 +22,10 @@ var indexRouter = require("./routes/index");
 const swaggerDocument = require('./swagger-output.json');
 
 // MARK: - Config
-require("dotenv").config();
+  require("dotenv").config();
 
 // MARK: - CORS
-corsOptions = {
+const corsOptions = {
   origin: "*",
   optionsSuccessStatus: 200
 };
@@ -35,7 +33,9 @@ corsOptions = {
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(morganMiddleware.successLog);
 app.use(morganMiddleware.errorLog);
-app.use(logger('dev'));
+if (process.env.NODE_ENV !== 'test') {
+  app.use(logger('dev'));
+}
 app.use(cors(corsOptions));
 app.use('/api-docs',basicAuth({
   users: {'arktik': 'swagger'},
@@ -60,5 +60,10 @@ app.set('view engine', 'ejs');
 
 app.use("/auth", authRouter);
 app.use("/api", authenticate.verifyJWT, indexRouter);
+app.use("/", (req, res) => {
+  res.status(200).json({ 
+    message: "Welcome to @rkt!k'$ API" 
+  });
+});
 
 module.exports = app;

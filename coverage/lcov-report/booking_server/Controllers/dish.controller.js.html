@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
+                <span class="strong">22.22% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/14</span>
+                <span class='fraction'>4/18</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
+                <span class="strong">22.22% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/14</span>
+                <span class='fraction'>4/18</span>
             </div>
         
             
@@ -90,18 +90,14 @@
 <a name='L25'></a><a href='#L25'>25</a>
 <a name='L26'></a><a href='#L26'>26</a>
 <a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L28'></a><a href='#L28'>28</a>
+<a name='L29'></a><a href='#L29'>29</a>
+<a name='L30'></a><a href='#L30'>30</a>
+<a name='L31'></a><a href='#L31'>31</a>
+<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -109,28 +105,44 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const dishService = require('../services/DishService');
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const DishService = require('../services/DishService');
 &nbsp;
 const get = <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {
+    const dishService = <span class="cstat-no" title="statement not covered" >new DishService(null);</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
         const dishes = <span class="cstat-no" title="statement not covered" >await dishService.getAllDishes();</span>
 <span class="cstat-no" title="statement not covered" >        res.json({ dishes });</span>
     } catch (error) {
+<span class="cstat-no" title="statement not covered" >        console.error(error);</span>
 <span class="cstat-no" title="statement not covered" >        next(error);</span>
     }
 }
 &nbsp;
 const post = <span class="fstat-no" title="function not covered" >as</span>ync (req, res, next) =&gt; {
+    const dish = <span class="cstat-no" title="statement not covered" >req.body;</span>
+    const dishService = <span class="cstat-no" title="statement not covered" >new DishService(dish);</span>
 <span class="cstat-no" title="statement not covered" >    try {</span>
-        const dish = <span class="cstat-no" title="statement not covered" >await dishService.createDish(req.body);</span>
+        const dish = <span class="cstat-no" title="statement not covered" >await dishService.createDish();</span>
 <span class="cstat-no" title="statement not covered" >        res.status(201).json({ message: "Dish registered", dish });</span>
     } catch (error) {
 <span class="cstat-no" title="statement not covered" >        if (error.message.startsWith("The dish_")) {</span>
@@ -151,7 +163,7 @@ module.exports = {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2024-03-15T11:13:52.737Z
+                at 2024-06-12T07:16:23.613Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -40,11 +40,12 @@ class AuthService {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(this.password, salt);
         const user = { firstname: this.firstname, lastname: this.lastname, password: hashedPassword, role: "user", email: this.email, phoneNumber: this.phoneNumber };
-
+        
         await User.create(user);
         return user;
     }
 
+    // func to send email for reset password
     async sendEmailForResetPwd() {
         let transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -67,6 +68,7 @@ class AuthService {
         await transporter.sendMail(mailOptions);
     }
 
+    // func to reset password after email validation
     async resetPassword() {
         let user = await User.findOne({ where: { email: this.email } });
         if (!user) {

@@ -4,7 +4,6 @@ const validator = require('../middlewares/expressValidator');
 const signIn = async (req, res, next) => {
     const { email, password } = req.body;
     const authService = new AuthService(email, password);
-    validator.hasError
     try {
         const token = await authService.signIn();
         res.status(201).json(token);
@@ -16,7 +15,6 @@ const signIn = async (req, res, next) => {
 const signUp = async (req, res, next) => {
     const { email, password, firstname, lastname, phoneNumber } = req.body;
     const authService = new AuthService(email, password, firstname, lastname, phoneNumber);
-    validator.hasError
     try {
         const user = await authService.signUp();
         res.status(201).json({ user });
@@ -28,7 +26,6 @@ const signUp = async (req, res, next) => {
 const sendEmailForResetPwd = async (req, res) => {
     const { email } = req.body;
     const authService = new AuthService(email);
-    validator.hasError
     try {
         await authService.sendEmailForResetPwd();
         res.send('Email envoyé');
@@ -40,7 +37,6 @@ const sendEmailForResetPwd = async (req, res) => {
 const sendPassword = async (req, res, next) => {
     const { email, password } = req.body;
     const authService = new AuthService(email, password);
-    validator.hasError
     try {
         await authService.resetPassword();
         res.send('Mot de passe réinitialisé avec succès.');
@@ -50,7 +46,6 @@ const sendPassword = async (req, res, next) => {
 }
 
 const resetPassword = (req, res) => {
-    validator.hasError
     const email = req.query.email;
     res.render('resetPassword', { email });
 }

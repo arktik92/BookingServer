@@ -10,23 +10,30 @@ const hasError = (req, res, next) => {
 }
 
 // MARK: - AUTH VALIDATION
-const validateUser = [
-        body('firstname').isEmpty().withMessage('Ne peut pas être vide'),
-        body('lastname').isEmpty().withMessage('Ne peut pas être vide'),
+const signUpValidationRules = () => {
+    return [
+        body('firstname').exists().withMessage('Ne peut pas être vide').not().isEmpty().withMessage('Ne peut pas être vide'),
+        body('lastname').exists().not().isEmpty().withMessage('Ne peut pas être vide'),
+        body('email').exists().withMessage('Ne peut pas être vide').not().isEmpty().withMessage("Ne peut pas être vide").isEmail().withMessage('Doit être une adresse email valide'),
+        body('password').exists().isLength({ min: 6 }),
+        body('phoneNumber').exists().not().isEmpty().withMessage('Ne peut pas être vide'),
+        body('phoneNumber').isLength({ min: 10, max: 10 }).withMessage('Doit être un numéro de téléphone valide'),
+        body('phoneNumber').isMobilePhone().withMessage('Doit être un numéro de téléphone valide')
+    ]
+}
+
+const signInValidationRules = () => {
+    return [
         body('email').isEmail().withMessage('Doit être une adresse email valide'),
-        body('password').isLength({ min: 6 }),
-        body('phoneNumber').isEmpty().withMessage('Ne peut pas être vide'),
-        body('phoneNumber').isLength({ min: 10, max: 10 }).withMessage('Doit être un numéro de téléphone valide')
-]
+        body('password').exists().isLength({ min: 6 })
+    ]
+} 
 
-const ValidateSignIn = [
-    body('email').isEmail().withMessage('Doit être une adresse email valide'),
-    body('password').isLength({ min: 6 })
-]
-
-const validateEmail = [
-    body('email').isEmail().withMessage('Doit être une adresse email valide')
-]
+const simpleEmailValidationrules = () => {
+    return [
+        body('email').isEmail().withMessage('Doit être une adresse email valide')
+    ]
+} 
 
 // MARK: - SPOT VALIDATION
 const validateSpot = [
@@ -46,9 +53,9 @@ const validateReservation = [
 ]
 
 module.exports = {
-    validateUser,
-    ValidateSignIn,
-    validateEmail,
+    signUpValidationRules,
+    signInValidationRules,
+    simpleEmailValidationrules,
     validateSpot,
     validateRoom,
     hasError
