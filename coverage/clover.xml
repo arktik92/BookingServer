@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1718176583672" clover="3.2.0">
-  <project timestamp="1718176583672" name="All files">
+<coverage generated="1718280162799" clover="3.2.0">
+  <project timestamp="1718280162799" name="All files">
     <metrics statements="610" coveredstatements="401" conditionals="109" coveredconditionals="25" methods="83" coveredmethods="51" elements="802" coveredelements="477" complexity="0" loc="610" ncloc="610" packages="7" files="35" classes="35"/>
     <package name="booking_server">
       <metrics statements="37" coveredstatements="36" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="2"/>
@@ -376,8 +376,8 @@
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="4" count="5" type="stmt"/>
         <line num="5" count="5" type="stmt"/>
-        <line num="16" count="5" type="stmt"/>
-        <line num="26" count="5" type="stmt"/>
+        <line num="17" count="5" type="stmt"/>
+        <line num="27" count="5" type="stmt"/>
       </file>
       <file name="membership.js" path="/Users/estebansemellier/Documents/Dev/Simplon/booking_server/models/membership.js">
         <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
