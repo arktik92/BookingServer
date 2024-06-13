@@ -1,11 +1,13 @@
 name: Run Tests
-'on':
+
+on:
   push:
     branches:
       - master
   pull_request:
     branches:
       - master
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -13,9 +15,9 @@ jobs:
       postgres:
         image: 'postgres:latest'
         env:
-          DB_USER: postgres
-          DB_PASS: postgres
-          DB_NAME_TEST: testdb
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
         ports:
           - '5432:5432'
         options: >-
