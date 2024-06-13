@@ -32,5 +32,20 @@ jobs:
           node-version: '20'
       - name: Install dependencies
         run: npm install
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          until pg_isready -h localhost -p 5432; do
+            echo "Waiting for postgres container..."
+            sleep 1
+          done
+
+      - name: Set environment variables
+        run: echo "DATABASE_URL=postgres://postgres:postgres@localhost:5432/testdb" >> $GITHUB_ENV
+
+      - name: Run migrations
+        run: npx sequelize-cli db:migrate
+
+      - name: Run seeds
+        run: npx sequelize-cli db:seed:all
       - name: Run tests
         run: npm run test
